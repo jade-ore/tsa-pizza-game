@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://l8r5n4k2hdx6"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_odd24"]
+[ext_resource type="Texture2D" uid="uid://cq2bt36ooddww" path="res://assets/img/objects/table/table_selected.png" id="2_l0ngo"]
+[ext_resource type="Texture2D" uid="uid://dm77u2u0jm7j7" path="res://assets/img/objects/table/table_faced.png" id="3_xg0ly"]
+[ext_resource type="Texture2D" uid="uid://bj7c02cjxdq5" path="res://assets/img/objects/table/table_normal.png" id="4_funkk"]
+[ext_resource type="Script" uid="uid://cgec5o22y5iqb" path="res://scenes/other/cashier_station.gd" id="5_q2l2v"]
+
+[node name="CashierStation" instance=ExtResource("1_odd24")]
+rotation = 3.1415927
+selected = ExtResource("2_l0ngo")
+faced = ExtResource("3_xg0ly")
+normal = ExtResource("4_funkk")
+
+[node name="Sprite2D" parent="." index="0"]
+rotation = 3.1415927
+texture = ExtResource("4_funkk")
+
+[node name="CollisionShape2D" parent="detection_component" index="0"]
+position = Vector2(-59, 1)
+
+[node name="reception_int" type="Node2D" parent="." index="4"]
+script = ExtResource("5_q2l2v")

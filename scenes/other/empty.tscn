@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd0fsm4oc8n8r"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_4oxih"]
+[ext_resource type="Script" uid="uid://rj850cq0jfbb" path="res://scripts/station_interact.gd" id="2_0qvn8"]
+[ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_0qvn8"]
+
+[node name="Empty" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_4oxih")]
+interact_component = NodePath("StationInteract")
+
+[node name="StationInteract" type="Node2D" parent="." index="4" node_paths=PackedStringArray("inventory")]
+script = ExtResource("2_0qvn8")
+inventory = NodePath("../InventoryComponent")
+
+[node name="InventoryComponent" parent="." index="5" instance=ExtResource("3_0qvn8")]
+
+[node name="Control" type="Control" parent="." index="6"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control" index="0"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_font_sizes/font_size = 8
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true

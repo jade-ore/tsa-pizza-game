@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://b31fpl42px0f6"]
+
+[ext_resource type="Texture2D" uid="uid://dy03xhcdy1tdc" path="res://icon.svg" id="1_hm6xh"]
+[ext_resource type="Script" uid="uid://wuvi1desnkb1" path="res://scenes/entities/customer.gd" id="2_prj4p"]
+
+[node name="Customer" type="Sprite2D"]
+scale = Vector2(-0.17489181, 0.314879)
+texture = ExtResource("1_hm6xh")
+script = ExtResource("2_prj4p")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = -64.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(6.930828e-06, 0.6294462, 0.9878828, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ElapsedTimeTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ElapsedTimeTimer" to="." method="one_second_passed"]

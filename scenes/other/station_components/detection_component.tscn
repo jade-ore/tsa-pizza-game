@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwn7xucvt0ih2"]
+
+[ext_resource type="Script" uid="uid://uqtvorr76678" path="res://scripts/detection_component.gd" id="1_ro4dm"]
+
+[node name="detection_component" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_ro4dm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

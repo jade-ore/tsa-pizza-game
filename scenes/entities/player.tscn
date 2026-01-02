@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2bfmw1631obc"]
+
+[ext_resource type="Script" uid="uid://dmmfyacxtnqpa" path="res://scripts/player.gd" id="1_08t41"]
+[ext_resource type="Texture2D" uid="uid://brqn2xhmg5a0d" path="res://assets/img/sprites/player_frames.png" id="2_08t41"]
+[ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_1ie0h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ie0h"]
+atlas = ExtResource("2_08t41")
+region = Rect2(0, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42nxq"]
+atlas = ExtResource("2_08t41")
+region = Rect2(50, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5u6hq"]
+atlas = ExtResource("2_08t41")
+region = Rect2(100, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4qa6"]
+atlas = ExtResource("2_08t41")
+region = Rect2(150, 0, 50, 75)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ss7kx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ie0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42nxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5u6hq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4qa6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_42nxq"]
+radius = 18.0
+height = 66.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("inventory")]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+script = ExtResource("1_08t41")
+inventory = NodePath("InventoryComponent")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ss7kx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_42nxq")
+
+[node name="InventoryComponent" parent="." instance=ExtResource("3_1ie0h")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -66.0
+offset_right = 68.0
+offset_bottom = 40.0
+
+[node name="ClickEToRoll" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.8030303
+anchor_top = -0.2264151
+anchor_right = 1.7954545
+anchor_bottom = 0.24528302
+theme_override_colors/font_color = Color(0.5918564, 0.4849161, 0.99172264, 1)
+theme_override_font_sizes/font_size = 36
+text = "Click E to roll dough"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.030303031
+anchor_top = -0.20754717
+anchor_right = 1.0909091
+anchor_bottom = 0.26415095
+theme_override_colors/font_color = Color(0.5921569, 0.4862745, 0.99215686, 1)
+theme_override_font_sizes/font_size = 36
+text = "Rolling..."
+metadata/_edit_use_anchors_ = true

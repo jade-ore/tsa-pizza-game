@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddtpo0k6uoj1p"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_04byx"]
+[ext_resource type="Script" uid="uid://dp8qc2gv1ak1g" path="res://scripts/interact_compononent.gd" id="2_miv34"]
+[ext_resource type="Texture2D" uid="uid://cw1eupdy4pu6u" path="res://assets/img/objects/sausage/sausage_selected.png" id="2_va3kr"]
+[ext_resource type="Texture2D" uid="uid://14nhtangjfoj" path="res://assets/img/objects/sausage/sausage_faced.png" id="3_dy1r6"]
+[ext_resource type="Texture2D" uid="uid://miajsc75hlbv" path="res://assets/img/objects/sausage/sausage_normal.png" id="4_jpluc"]
+
+[node name="Sausage" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_04byx")]
+interact_component = NodePath("InteractCompononent")
+selected = ExtResource("2_va3kr")
+faced = ExtResource("3_dy1r6")
+normal = ExtResource("4_jpluc")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("4_jpluc")
+
+[node name="InteractCompononent" type="Node2D" parent="." index="4"]
+script = ExtResource("2_miv34")

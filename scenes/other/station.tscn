@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1l5tnxy2giem"]
+
+[ext_resource type="Script" uid="uid://dprg0ofj85pui" path="res://scripts/station.gd" id="1_j2fr6"]
+[ext_resource type="Texture2D" uid="uid://bfslj746ola06" path="res://assets/img/objects/station.png" id="2_0iqok"]
+[ext_resource type="PackedScene" uid="uid://dwn7xucvt0ih2" path="res://scenes/other/station_components/detection_component.tscn" id="2_j2fr6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a8jb0"]
+size = Vector2(56, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0iqok"]
+size = Vector2(68, 45)
+
+[node name="Station" type="Node2D" node_paths=PackedStringArray("detection_area")]
+script = ExtResource("1_j2fr6")
+detection_area = NodePath("detection_component")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0iqok")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_a8jb0")
+
+[node name="detection_component" parent="." instance=ExtResource("2_j2fr6")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_component"]
+position = Vector2(-51, 0.5)
+shape = SubResource("RectangleShape2D_0iqok")
+
+[node name="TextureTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="timeout" from="TextureTimer" to="." method="_on_texture_timer_timeout"]

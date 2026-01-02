@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://vrb1a3sxurv6"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_nfuml"]
+[ext_resource type="Texture2D" uid="uid://cqdeqah3qscyv" path="res://assets/img/objects/onions/onions_faced.png" id="2_iikba"]
+[ext_resource type="Script" uid="uid://7f3cp0r1agba" path="res://scripts/interact_compoenet.gd" id="2_wtsqj"]
+[ext_resource type="Texture2D" uid="uid://dibfk5w2k7jku" path="res://assets/img/objects/onions/onions_normal.png" id="3_0oiye"]
+
+[node name="Onions" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_nfuml")]
+interact_component = NodePath("InteractCompoenet")
+selected = ExtResource("2_iikba")
+faced = ExtResource("3_0oiye")
+normal = ExtResource("3_0oiye")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_0oiye")
+
+[node name="InteractCompoenet" type="Node2D" parent="." index="4"]
+script = ExtResource("2_wtsqj")

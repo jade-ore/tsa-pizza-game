@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1nd6w70ktdsu"]
+
+[ext_resource type="Texture2D" uid="uid://rcpg6hmwv71r" path="res://assets/img/background/map.png" id="1_8wnxx"]
+[ext_resource type="Script" uid="uid://b13rud8e2vewq" path="res://scripts/camera_2d.gd" id="2_gacy2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
+size = Vector2(1392.0313, 71.125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g70hs"]
+size = Vector2(20, 115)
+
+[node name="BaseLevel" type="Node2D"]
+
+[node name="Map" type="Sprite2D" parent="."]
+position = Vector2(577, 322)
+texture = ExtResource("1_8wnxx")
+
+[node name="Border" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border"]
+shape = SubResource("RectangleShape2D_uk53i")
+
+[node name="MapCollisions" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCollisions"]
+shape = SubResource("RectangleShape2D_g70hs")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_gacy2")
+
+[node name="Stations" type="Node2D" parent="."]
+
+[node name="CashierStations" type="Node2D" parent="."]
+
+[node name="CustomerTimer" type="Timer" parent="."]
