@@ -7,7 +7,10 @@ func _init(chopped_input: bool) -> void:
 	chopped = chopped_input
 
 func _to_string() -> String:
-	return "Mushroom, chopped: " + str(chopped)
+	return "Mushroom"
 
 func chop():
 	chopped = true
+
+func repr():
+	return "Mushrooms, chopped: " + str(chopped) + " "

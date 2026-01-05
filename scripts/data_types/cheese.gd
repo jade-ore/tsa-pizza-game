@@ -7,4 +7,7 @@ func _init(shredded_cheese: bool):
 	shredded = shredded_cheese
 
 func _to_string() -> String:
-	return "Cheese, shredded: " + str(shredded)
+	return "Cheese"
+
+func repr():
+	return "Cheese, shredded: " + str(shredded) + " "

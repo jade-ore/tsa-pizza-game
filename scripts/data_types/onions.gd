@@ -10,4 +10,7 @@ func chop():
 	chopped = true
 
 func _to_string() -> String:
-	return "Onions, chopped: " + str(chopped)
+	return "Onions"
+
+func repr():
+	return "Onions, chopped: " + str(chopped) + " "

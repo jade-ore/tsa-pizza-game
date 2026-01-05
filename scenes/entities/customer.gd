@@ -2,41 +2,45 @@ extends Sprite2D
 signal CustomerLeft
 
 @export var station: Node2D = null
-@export var rating: int
+@export var rating: int = 0
 var order = Pizza.generate_pizza()
 var order_taken: bool
 var time_elapsed: int
-var max_wait_time = 25
+var order_max_wait_time = 25
+var serve_max_wait_time = 50
+var patience = 10
+var ready_to_talk: bool
 
-# Start a timer, divide timer into 5 sections, stars go down after cutoff until order taken
-# Take order, have it show up at bottom of screen
-# Start a timer, divide timer into 5 sections, stars go down after cutoff pizza given
-# Customer leaves
 
 func _ready() -> void:
 	while true:
-		if station != null:
-			break
-	global_position = station.position - Vector2(50, 0)
+		if station != null: break
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "global_position", station.position - Vector2(50, 0), ceil(randf() * 4))
+	tween.tween_callback(start)
+
+func start():
 	$ElapsedTimeTimer.start()
+	ready_to_talk = true
 
 func interact(pizza):
-	"""
-	Check if order is taken already
-	If it is not, map time waited to 5 star rating
-	If it is, check how many ingredients got right in pizza and grab a percentage, multiply by 5 and floor
-	Check time waited and map time to 5 star rating also
-	Call a leave function that leaves
-	"""
+	if not ready_to_talk: return
 	if not order_taken:
-		# Maps the time elapsed to amount of stars
-		var stars = remap(max_wait_time - time_elapsed, 0, max_wait_time, 0, 5)
-		rating += floor(stars) + 1
-		"""Take order"""
+		var order_time_stars = remap(order_max_wait_time - time_elapsed + patience, 0, order_max_wait_time + patience, 0, 5)
+		rating += round(order_time_stars)
+		order_taken = true
+		print("My order is: ", order)
+		time_elapsed = 0
 		return
-	
+	rating += order.compare_to(pizza)
+	var serve_time_stars = remap(serve_max_wait_time - time_elapsed + patience, 0, serve_max_wait_time + patience, 0, 5)
+	rating += round(serve_time_stars)
+	queue_free()
+
 
 func _exit_tree() -> void:
+	rating /= 3 # Find the average rating
+	print("I give you %s stars" % rating)
 	CustomerLeft.emit(self)
 
 func one_second_passed() -> void:

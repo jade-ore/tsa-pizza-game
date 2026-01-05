@@ -10,4 +10,7 @@ func open_package():
 	package_opened = true
 
 func _to_string() -> String:
-	return "Sausage, package opened: " + str(package_opened)
+	return "Sausage"
+
+func repr():
+	return "Sausage, package opened: " + str(package_opened) + " "

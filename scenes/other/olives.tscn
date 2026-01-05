@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b4c47l5s73gxe"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_54fc6"]
-[ext_resource type="Script" uid="uid://bnb0vsin1cs2e" path="res://scripts/interact_compoenent.gd" id="2_8ywaw"]
+[ext_resource type="Script" uid="uid://bnb0vsin1cs2e" path="res://scripts/olives_interact.gd" id="2_8ywaw"]
 [ext_resource type="Texture2D" uid="uid://bpp3g5pctymdu" path="res://assets/img/objects/olives/olives_selected.png" id="2_wra5l"]
 [ext_resource type="Texture2D" uid="uid://6t2jbirtsnky" path="res://assets/img/objects/olives/olives_faced.png" id="3_ylyq8"]
 [ext_resource type="Texture2D" uid="uid://gcaa44jgkp1r" path="res://assets/img/objects/olives/olives_normal.png" id="4_vt4ek"]

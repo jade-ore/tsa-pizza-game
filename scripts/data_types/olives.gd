@@ -10,4 +10,4 @@ func open_can():
 	open = true
 
 func _to_string() -> String:
-	return "Olives, open: " + str(open)
+	return "Olives"

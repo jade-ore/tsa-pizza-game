@@ -1,4 +1,4 @@
-extends Node2D
+extends InteractComponent
 
 var customer_at_cashier: Node2D = null
 var order: Pizza
@@ -10,8 +10,13 @@ var order: Pizza
 # Start a timer, divide timer into 5 sections, stars go down after cutoff pizza given
 # Customer leaves
 
+func _process(delta: float) -> void:
+	call_deferred("find_customer")
+
+func find_customer():
+	customer_at_cashier = $"..".extra_station_info 
+
 func run(inventory):
 	if not customer_at_cashier:
 		return
-	customer_at_cashier.interact()
-	
+	customer_at_cashier.interact(inventory.value)

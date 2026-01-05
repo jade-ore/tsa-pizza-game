@@ -7,6 +7,8 @@ extends Node2D
 @export var faced = load("res://assets/img/objects/station_faced.png")
 @export var normal = load("res://assets/img/objects/station.png")
 
+@export var extra_station_info = null
+
 var selected_check: bool
 var player_facing: bool
 

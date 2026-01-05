@@ -2,6 +2,7 @@ extends Resource
 class_name Pizza
 
 enum cooked_state {RAW, COOKED, BURNT}
+var cooked_state_names = ["RAW", "COOKED", "BURNT"]
 
 @export var dough = Dough.new()
 @export var toppings: Array
@@ -20,17 +21,18 @@ static func generate_pizza():
 	var topping_array = []
 	for topping in TOPPINGS_LIST:
 		if randf() * 100 <= TOPPINGS_LIST[topping]: topping_array.append(topping.new(true))
-	return Pizza.new(topping_array)
+	return Pizza.new(topping_array, 1)
 
-func _init(input_toppings: Array = []):
+func _init(input_toppings: Array = [], how_cooked = cooked_state.RAW):
 	dough.rolled = true
 	toppings = input_toppings
+	cooked = how_cooked
 
 func add_topping(topping: Topping):
 	toppings.append(topping)
 
 func _to_string() -> String:
-	var return_string: String = "Pizza, cooked: " + str(cooked) + "toppings: " 
+	var return_string: String = "Pizza, cooked: " + cooked_state_names[cooked] + " toppings: " 
 	for item in toppings:
 		@warning_ignore("unassigned_variable_op_assign")
 		return_string += str(item) + " "
@@ -46,15 +48,16 @@ func cook():
 		return
 	cooked = cooked_state.COOKED
 
-func is_equal(other: Pizza):
+func compare_to(other: Pizza):
 	var self_ingredient_dict: Dictionary
 	var incorrect_toppings: Array = []
-	var pizza_correct: bool = false
 	for topping in toppings:
 		self_ingredient_dict[str(topping)] = true
 	for topping in other.toppings:
-		if not self_ingredient_dict[str(topping)]:
+		if not str(topping) in self_ingredient_dict:
 			incorrect_toppings.append(topping)
-	if len(incorrect_toppings) == 0:
-		pizza_correct = true
-	return [pizza_correct, incorrect_toppings]
+	var num_of_toppings: float = len(toppings)
+	var percentage = 1 - (len(incorrect_toppings) / num_of_toppings)
+	if cooked != other.cooked: percentage -= 0.5
+	var stars = remap(percentage, 0, 1, 0, 5)
+	return floor(stars)

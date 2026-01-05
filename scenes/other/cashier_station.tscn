@@ -6,8 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bj7c02cjxdq5" path="res://assets/img/objects/table/table_normal.png" id="4_funkk"]
 [ext_resource type="Script" uid="uid://cgec5o22y5iqb" path="res://scenes/other/cashier_station.gd" id="5_q2l2v"]
 
-[node name="CashierStation" instance=ExtResource("1_odd24")]
+[node name="CashierStation" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_odd24")]
 rotation = 3.1415927
+interact_component = NodePath("reception_int")
 selected = ExtResource("2_l0ngo")
 faced = ExtResource("3_xg0ly")
 normal = ExtResource("4_funkk")
