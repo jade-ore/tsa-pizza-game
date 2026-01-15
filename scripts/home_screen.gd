@@ -12,8 +12,9 @@ func rotate_label_around():
 	tween.tween_property($Label, "rotation_degrees", LABEL_ROTATION_DEGREES, LABEL_ROTATION_TIME)
 	tween.tween_property($Label, "rotation_degrees", -1 * LABEL_ROTATION_DEGREES, LABEL_ROTATION_TIME)
 	tween.set_loops()
-	tween.bind_node($Label)
-
 
 func _on_level_selector_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/ui/level_selector.tscn")
+
+func _on_settings_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/ui/settings.tscn")

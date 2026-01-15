@@ -39,6 +39,7 @@ func interact(pizza):
 
 
 func _exit_tree() -> void:
+	rating = ( rating + abs(rating) ) / 2 # If rating is below 0, sets it to 0
 	rating /= 3 # Find the average rating
 	print("I give you %s stars" % rating)
 	CustomerLeft.emit(self)

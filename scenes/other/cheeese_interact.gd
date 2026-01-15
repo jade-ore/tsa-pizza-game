@@ -1,6 +1,8 @@
 extends InteractComponent
 
+@export var inventory: ToppingStationInventoryComponent
+
 var item: Topping = Cheese.new(true)
 
-func run(inventory):
-	inventory.add(item)
+func run(plr_inventory):
+	plr_inventory.add(item)

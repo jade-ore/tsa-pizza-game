@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 signal interact
 enum Movement {RIGHT, LEFT, UP, DOWN}
 
@@ -6,40 +7,58 @@ var movement_direction: Vector2
 var speed: int = 500
 var facing_direction = 0
 var last_direction: Vector2
-var is_rolling_dough: bool
 
 @export var inventory: InventoryComponent
 @export var time_it_takes_to_roll_dough: float = 2
 
-func _ready() -> void:
-	print("")
-
-
 func _physics_process(delta: float) -> void:
 	movement_direction = Input.get_vector('left', 'right', 'up', 'down')
-	velocity = movement_direction * speed
-	check_input()
-	find_facing_direction()
+	if not menu_running:
+		velocity = movement_direction * speed
+		find_facing_direction()
 	animate()
 	move_and_slide()
 	last_direction = round(movement_direction)
 
-func check_input():
+func _input(_event: InputEvent) -> void:
+	if menu_running:
+		if Input.is_action_just_pressed("down"):
+			change_menu(menu_vector_directions[Movement.DOWN])
+		if Input.is_action_just_pressed("up"):
+			change_menu(menu_vector_directions[Movement.UP])
+		if Input.is_action_just_pressed("right"):
+			change_menu(menu_vector_directions[Movement.RIGHT])
+		if Input.is_action_just_pressed("left"):
+			change_menu(menu_vector_directions[Movement.LEFT])
+		if Input.is_action_just_pressed("exit"):
+			menu_running = false
+		if Input.is_action_just_pressed("interact"):
+			menu_running = false
+			Order.emit(current_menu_topping_selected)
+			return
 	if Input.is_action_just_pressed("interact"):
 		if await roll_dough():
 			return
 		interact.emit(inventory)
-
+		return
 
 func animate():
 	$"../CanvasLayer/Label".text = "Player 1 items: " + str(inventory)
 	$AnimatedSprite2D.frame = facing_direction
-	for label in $Control.get_children():
+	$OrderMenu.visible = menu_running
+	for label in $DoughRolling.get_children():
 		label.visible = false
 	if inventory.value is Dough:
-		$Control/ClickEToRoll.visible = true
+		$DoughRolling/ClickEToRoll.visible = true
 	elif is_rolling_dough:
-		$Control/Label.visible = true
+		$DoughRolling/CurrentlyRolling.visible = true
+	
+	# order menu
+	var selected_part = list_of_ingredients[current_menu_position.y][current_menu_position.x]
+	for part in $OrderMenu/IngredientList.get_children():
+		part.texture = part.normal
+	selected_part.texture = selected_part.selected
+	current_menu_topping_selected = selected_part.topping
 
 func get_direction():
 	return facing_direction
@@ -73,6 +92,8 @@ func find_facing_direction():
 		if rounded_movement_direction_y == 1:
 			facing_direction = Movement.DOWN
 
+var is_rolling_dough: bool
+
 func roll_dough():
 	if not inventory.value is Dough:
 		return false
@@ -83,3 +104,70 @@ func roll_dough():
 	inventory.add(Pizza.new())
 	is_rolling_dough = false
 	return true
+
+var mapped_string_to_class = {
+	"Dough": Dough
+}
+
+func set_ingredient_menu():
+	for topping in Global.list_of_ingredients: 
+		var part = ingredient_menu_part.instantiate() as IngredientMenuPart
+		part.normal = topping.normal
+		part.selected = topping.selected
+		part.topping = topping.new()
+		$OrderMenu/IngredientList.add_child(part)
+	var column: int = 0
+	var row = []
+	for menu_part in $OrderMenu/IngredientList.get_children():
+		if column == $OrderMenu/IngredientList.columns:
+			list_of_ingredients.append(row)
+			row = []
+			column = 0
+		row.append(menu_part)
+		column += 1
+	if not row.is_empty():
+		list_of_ingredients.append(row)
+	print(list_of_ingredients)
+
+var ingredient_menu_part = preload("res://scenes/ui/ingredient_menu_part.tscn")
+var menu_running: bool = false
+var current_menu_position: Vector2
+var list_of_ingredients: Array
+const menu_vector_directions = {
+	Movement.DOWN: Vector2(0,1),
+	Movement.UP: Vector2(0,-1),
+	Movement.LEFT: Vector2(-1,0),
+	Movement.RIGHT: Vector2(1,0)
+}
+var current_menu_topping_selected: Topping
+signal Order
+
+func order_ingredients(order_station):
+	"""
+	Make OrderMenu visible
+	Check if ordered or exited
+	Move selection box based off of movement (use switch case)
+		Check if it moves off the screen and don't let it if it does
+	Tell station to order the food
+	"""
+	$OrderMenu.visible = true
+	menu_running = true
+
+func change_menu(d: Vector2):
+	"""
+	Get current menu position as vector
+	Check if movement is pressed
+		Check if it moves off the screen and change it to (0,0) if it does
+	Add direction vector to current menu position
+	Display direction vector
+	Change the current menu item selected
+	"""
+	var direction = d
+	if current_menu_position.x + direction.x < 0 or \
+	current_menu_position.x + direction.x > len(list_of_ingredients[current_menu_position.y]) - 1:
+		direction = Vector2(0,0)
+	if (current_menu_position.y + direction.y < 0 or current_menu_position.y + direction.y > 1):
+		direction = Vector2(0,0)
+	elif len(list_of_ingredients[current_menu_position.y + direction.y]) < current_menu_position.x + 1:
+		direction = Vector2(0,0)
+	current_menu_position += direction

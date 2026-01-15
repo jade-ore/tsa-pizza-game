@@ -7,7 +7,8 @@
 script = ExtResource("1_s3esy")
 
 [node name="Player" parent="." instance=ExtResource("2_72e8q")]
-z_index = 1
+visible = true
+z_index = 6
 position = Vector2(728, 322)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

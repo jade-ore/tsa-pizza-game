@@ -49,6 +49,7 @@ func cook():
 	cooked = cooked_state.COOKED
 
 func compare_to(other: Pizza):
+	if other is not Pizza: return -999
 	var self_ingredient_dict: Dictionary
 	var incorrect_toppings: Array = []
 	for topping in toppings:

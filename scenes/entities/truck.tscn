@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://edn77cctsv1s"]
+
+[ext_resource type="Texture2D" uid="uid://wd0n4nkgphm1" path="res://assets/img/sprites/Truck.png" id="1_ycdpv"]
+[ext_resource type="Script" uid="uid://is2a7a643vf2" path="res://scenes/entities/truck.gd" id="2_fmlyy"]
+
+[node name="Truck" type="Sprite2D"]
+texture = ExtResource("1_ycdpv")
+script = ExtResource("2_fmlyy")

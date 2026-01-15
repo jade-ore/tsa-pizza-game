@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://b52qdqtawgah8"]
+[gd_scene load_steps=8 format=3 uid="uid://b52qdqtawgah8"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_jujx5"]
 [ext_resource type="Texture2D" uid="uid://dxbjoyc4v6f5h" path="res://assets/img/objects/dough/dough_selected.png" id="2_mnvjp"]
 [ext_resource type="Texture2D" uid="uid://cihu74j7fvktt" path="res://assets/img/objects/dough/dough_normal.png" id="2_n4idl"]
 [ext_resource type="Texture2D" uid="uid://1jlj3knw80ds" path="res://assets/img/objects/dough/dough_faced.png" id="3_eghua"]
 [ext_resource type="Script" uid="uid://o8r3v7wtiqc4" path="res://scenes/other/interact_component.gd" id="5_frt4x"]
+[ext_resource type="Script" uid="uid://canlnqh18cpdi" path="res://scenes/other/dough_inventory.gd" id="6_eghua"]
+[ext_resource type="Script" uid="uid://d33i53hy4b3yk" path="res://scenes/other/dough_amount.gd" id="7_dkyxd"]
 
 [node name="Dough" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_jujx5")]
 interact_component = NodePath("InteractComponent")
@@ -15,5 +17,19 @@ normal = ExtResource("2_n4idl")
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_n4idl")
 
-[node name="InteractComponent" type="Node2D" parent="." index="4"]
+[node name="InteractComponent" type="Node2D" parent="." index="4" node_paths=PackedStringArray("inventory")]
 script = ExtResource("5_frt4x")
+inventory = NodePath("../InventoryComponent")
+
+[node name="InventoryComponent" type="Node2D" parent="." index="5"]
+script = ExtResource("6_eghua")
+
+[node name="Label" type="Label" parent="." index="6"]
+offset_left = -27.0
+offset_top = 8.0
+offset_right = 43.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 8
+text = "amount: "
+script = ExtResource("7_dkyxd")
+metadata/_edit_use_anchors_ = true

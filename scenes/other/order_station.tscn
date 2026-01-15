@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4dcubfdgpw8w"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_obbrr"]
+[ext_resource type="Script" uid="uid://dp2asgbu0wrnk" path="res://order_station.gd" id="2_3nghj"]
+
+[node name="OrderStation" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_obbrr")]
+interact_component = NodePath("OrderInteract")
+
+[node name="Label" type="Label" parent="." index="4"]
+offset_left = -27.0
+offset_top = -25.0
+offset_right = 36.0
+offset_bottom = 24.0
+text = "Order station "
+autowrap_mode = 3
+
+[node name="OrderInteract" type="Node2D" parent="." index="5"]
+script = ExtResource("2_3nghj")

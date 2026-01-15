@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlcm08mv3st3m"]
+
+[ext_resource type="Script" uid="uid://cku4lxg8ttbwc" path="res://control.gd" id="1_4bo0q"]
+[ext_resource type="Texture2D" uid="uid://bfslj746ola06" path="res://assets/img/objects/station.png" id="1_dt45t"]
+
+[node name="IngredientMenuPart" type="TextureRect"]
+custom_minimum_size = Vector2(40, 40)
+anchors_preset = -1
+anchor_top = 0.0015432099
+anchor_right = 0.034375
+anchor_bottom = 0.062654324
+offset_right = 20.399998
+offset_bottom = 20.399998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("1_dt45t")
+script = ExtResource("1_4bo0q")
+metadata/_edit_use_anchors_ = true

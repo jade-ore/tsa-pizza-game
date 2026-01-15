@@ -75,3 +75,4 @@ text = "Tutorial
 "
 
 [connection signal="pressed" from="LevelSelector" to="." method="_on_level_selector_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]

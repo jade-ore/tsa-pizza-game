@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://8irfm5xdcfn4"]
+[gd_scene load_steps=20 format=3 uid="uid://8irfm5xdcfn4"]
 
 [ext_resource type="PackedScene" uid="uid://b1nd6w70ktdsu" path="res://scenes/levels/000_base_level.tscn" id="1_x6ivy"]
 [ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/other/dough.tscn" id="2_6iamk"]
@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://dga2dsco83nod" path="res://scenes/other/pepperoni.tscn" id="9_excbq"]
 [ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/other/sauce.tscn" id="10_qxy0u"]
 [ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/other/cashier_station.tscn" id="14_mm8aj"]
+[ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/other/order_station.tscn" id="15_iwr0g"]
+[ext_resource type="PackedScene" uid="uid://edn77cctsv1s" path="res://scenes/entities/truck.tscn" id="16_bahl2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
 size = Vector2(1392.0313, 71.125)
@@ -100,6 +102,13 @@ position = Vector2(1128, 368)
 
 [node name="Oven" parent="Stations" index="11" instance=ExtResource("7_dnkej")]
 position = Vector2(1128, 424)
+
+[node name="OrderStation" parent="Stations" index="12" instance=ExtResource("15_iwr0g")]
+position = Vector2(672, 624)
+rotation = 1.5707964
+
+[node name="Truck" parent="Stations" index="13" instance=ExtResource("16_bahl2")]
+position = Vector2(1296, 608)
 
 [node name="CashierStation" parent="CashierStations" index="0" instance=ExtResource("14_mm8aj")]
 position = Vector2(328, 280)

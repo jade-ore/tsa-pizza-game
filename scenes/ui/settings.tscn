@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjbcwll7756eh"]
+[gd_scene load_steps=4 format=3 uid="uid://bjbcwll7756eh"]
 
 [ext_resource type="Script" uid="uid://dbe86f787ne3f" path="res://scenes/ui/current_hotkeys.gd" id="1_8wfqe"]
+[ext_resource type="Script" uid="uid://dg2313d6oqta8" path="res://scenes/ui/exit.gd" id="1_h175o"]
 [ext_resource type="Script" uid="uid://dq8y1ee5iowhe" path="res://scenes/ui/change_buttons.gd" id="2_7pacj"]
 
 [node name="KeybindChange" type="Control"]
@@ -32,6 +33,7 @@ offset_left = -12.0
 offset_top = -3.999998
 offset_right = -12.0
 offset_bottom = -4.0
+text = "Player 1"
 metadata/_edit_use_anchors_ = true
 
 [node name="Player2Toggle" type="Button" parent="."]
@@ -45,6 +47,16 @@ offset_left = -12.0
 offset_top = -3.999998
 offset_right = -12.0
 offset_bottom = -4.0
+text = "Player 2"
+
+[node name="Exit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 32.0
+offset_right = 131.0
+offset_bottom = 70.0
+text = "Back"
+script = ExtResource("1_h175o")
 
 [node name="Action" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -154,4 +166,5 @@ custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 text = "CHANGE"
 
+[connection signal="pressed" from="Exit" to="Exit" method="_on_pressed"]
 [connection signal="EmptyKey" from="ChangeButtons" to="CurrentHotkeys" method="_on_change_buttons_empty_key"]

@@ -45,6 +45,7 @@ radius = 18.0
 height = 66.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("inventory")]
+visible = false
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 script = ExtResource("1_08t41")
@@ -58,7 +59,7 @@ shape = SubResource("CapsuleShape2D_42nxq")
 
 [node name="InventoryComponent" parent="." instance=ExtResource("3_1ie0h")]
 
-[node name="Control" type="Control" parent="."]
+[node name="DoughRolling" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0
@@ -66,28 +67,48 @@ offset_top = -66.0
 offset_right = 68.0
 offset_bottom = 40.0
 
-[node name="ClickEToRoll" type="Label" parent="Control"]
+[node name="ClickEToRoll" type="Label" parent="DoughRolling"]
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.8030303
+anchor_left = -0.75757575
 anchor_top = -0.2264151
-anchor_right = 1.7954545
-anchor_bottom = 0.24528302
+anchor_right = 1.84091
+anchor_bottom = 0.24528316
 theme_override_colors/font_color = Color(0.5918564, 0.4849161, 0.99172264, 1)
 theme_override_font_sizes/font_size = 36
 text = "Click E to roll dough"
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Control"]
+[node name="CurrentlyRolling" type="Label" parent="DoughRolling"]
 visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.030303031
-anchor_top = -0.20754717
+anchor_top = -0.2264151
 anchor_right = 1.0909091
-anchor_bottom = 0.26415095
+anchor_bottom = 0.24528316
 theme_override_colors/font_color = Color(0.5921569, 0.4862745, 0.99215686, 1)
 theme_override_font_sizes/font_size = 36
 text = "Rolling..."
+metadata/_edit_use_anchors_ = true
+
+[node name="OrderMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -84.0
+offset_top = 40.0
+offset_right = 84.0
+offset_bottom = 262.0
+
+[node name="IngredientList" type="GridContainer" parent="OrderMenu"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.25
+anchor_right = 1.25
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
 metadata/_edit_use_anchors_ = true

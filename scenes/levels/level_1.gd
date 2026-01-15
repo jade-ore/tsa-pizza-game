@@ -4,9 +4,11 @@ const customer_scene = preload("res://scenes/entities/customer.tscn")
 @onready var open_stations = $CashierStations.get_children()
 var closed_stations = {}
 var wait_time = $CustomerTimer.wait_time
+var list_of_ingredients = [Dough]
 
 func _ready() -> void:
 	print("\n\n\n\n\n\n\n\n")
+	Global.list_of_ingredients = list_of_ingredients
 	$CustomerTimer.start()
 
 func _process(delta: float) -> void:
