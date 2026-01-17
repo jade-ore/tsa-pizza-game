@@ -1,21 +1,21 @@
 [gd_scene load_steps=19 format=3 uid="uid://8irfm5xdcfn4"]
 
 [ext_resource type="PackedScene" uid="uid://b1nd6w70ktdsu" path="res://scenes/levels/000_base_level.tscn" id="1_x6ivy"]
-[ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/other/dough.tscn" id="2_6iamk"]
+[ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/stations/dough.tscn" id="2_6iamk"]
 [ext_resource type="Script" uid="uid://bq6gwn2an4q2v" path="res://scenes/levels/level_1.gd" id="2_wtwp4"]
-[ext_resource type="PackedScene" uid="uid://dudf5dekhlqmg" path="res://scenes/other/cheese.tscn" id="3_nsrm0"]
-[ext_resource type="PackedScene" uid="uid://cd0fsm4oc8n8r" path="res://scenes/other/empty.tscn" id="4_x42e6"]
-[ext_resource type="PackedScene" uid="uid://ctnypau81ysbu" path="res://scenes/other/mushrooms.tscn" id="5_6761a"]
-[ext_resource type="PackedScene" uid="uid://vrb1a3sxurv6" path="res://scenes/other/onions.tscn" id="5_dga24"]
+[ext_resource type="PackedScene" uid="uid://dudf5dekhlqmg" path="res://scenes/stations/cheese.tscn" id="3_nsrm0"]
+[ext_resource type="PackedScene" uid="uid://cd0fsm4oc8n8r" path="res://scenes/stations/empty.tscn" id="4_x42e6"]
+[ext_resource type="PackedScene" uid="uid://ctnypau81ysbu" path="res://scenes/stations/mushrooms.tscn" id="5_6761a"]
+[ext_resource type="PackedScene" uid="uid://vrb1a3sxurv6" path="res://scenes/stations/onions.tscn" id="5_dga24"]
 [ext_resource type="Texture2D" uid="uid://bavy6y6ijw0rq" path="res://assets/img/objects/onions/onions_selected.png" id="5_sk5k4"]
 [ext_resource type="Texture2D" uid="uid://cqdeqah3qscyv" path="res://assets/img/objects/onions/onions_faced.png" id="6_oc4kc"]
-[ext_resource type="PackedScene" uid="uid://b4c47l5s73gxe" path="res://scenes/other/olives.tscn" id="6_sk5k4"]
-[ext_resource type="PackedScene" uid="uid://b0osgtkrnhtfh" path="res://scenes/other/oven.tscn" id="7_dnkej"]
-[ext_resource type="PackedScene" uid="uid://ddtpo0k6uoj1p" path="res://scenes/other/sausage.tscn" id="8_qxy0u"]
-[ext_resource type="PackedScene" uid="uid://dga2dsco83nod" path="res://scenes/other/pepperoni.tscn" id="9_excbq"]
-[ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/other/sauce.tscn" id="10_qxy0u"]
-[ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/other/cashier_station.tscn" id="14_mm8aj"]
-[ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/other/order_station.tscn" id="15_iwr0g"]
+[ext_resource type="PackedScene" uid="uid://b4c47l5s73gxe" path="res://scenes/stations/olives.tscn" id="6_sk5k4"]
+[ext_resource type="PackedScene" uid="uid://b0osgtkrnhtfh" path="res://scenes/stations/oven.tscn" id="7_dnkej"]
+[ext_resource type="PackedScene" uid="uid://ddtpo0k6uoj1p" path="res://scenes/stations/sausage.tscn" id="8_qxy0u"]
+[ext_resource type="PackedScene" uid="uid://dga2dsco83nod" path="res://scenes/stations/pepperoni.tscn" id="9_excbq"]
+[ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/stations/sauce.tscn" id="10_qxy0u"]
+[ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/stations/cashier_station.tscn" id="14_mm8aj"]
+[ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/stations/order_station.tscn" id="15_iwr0g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
 size = Vector2(1392.0313, 71.125)
@@ -115,7 +115,7 @@ position = Vector2(328, 392)
 rotation = -3.1415925
 
 [node name="OrderStation" parent="OrderStations" index="0" instance=ExtResource("15_iwr0g")]
-position = Vector2(656, 624)
+position = Vector2(448, 608)
 rotation = 1.5707964
 
 [node name="CustomerTimer" parent="." index="7"]

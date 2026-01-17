@@ -4,7 +4,7 @@ class_name Pizza
 enum cooked_state {RAW, COOKED, BURNT}
 var cooked_state_names = ["RAW", "COOKED", "BURNT"]
 
-@export var dough = Dough.new()
+@export var dough = Dough.new(true)
 @export var toppings: Array
 @export var cooked: int
 
@@ -24,7 +24,6 @@ static func generate_pizza():
 	return Pizza.new(topping_array, 1)
 
 func _init(input_toppings: Array = [], how_cooked = cooked_state.RAW):
-	dough.rolled = true
 	toppings = input_toppings
 	cooked = how_cooked
 

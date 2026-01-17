@@ -32,4 +32,6 @@ script = ExtResource("2_gacy2")
 
 [node name="CashierStations" type="Node2D" parent="."]
 
+[node name="OrderStations" type="Node2D" parent="."]
+
 [node name="CustomerTimer" type="Timer" parent="."]

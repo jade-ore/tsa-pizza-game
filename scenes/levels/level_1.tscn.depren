@@ -115,7 +115,7 @@ position = Vector2(328, 392)
 rotation = -3.1415925
 
 [node name="OrderStation" parent="OrderStations" index="0" instance=ExtResource("15_iwr0g")]
-position = Vector2(656, 624)
+position = Vector2(448, 608)
 rotation = 1.5707964
 
 [node name="CustomerTimer" parent="." index="7"]

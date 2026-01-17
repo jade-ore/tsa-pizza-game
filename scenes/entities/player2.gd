@@ -1,18 +1,7 @@
-extends CharacterBody2D
-class_name Player
-signal interact
-enum Movement {RIGHT, LEFT, UP, DOWN}
-
-var movement_direction: Vector2
-var speed: int = 500
-var facing_direction = 0
-var last_direction: Vector2
-
-@export var inventory: InventoryComponent
-@export var time_it_takes_to_roll_dough: float = 2
+extends Player
 
 func _physics_process(delta: float) -> void:
-	movement_direction = Input.get_vector('left', 'right', 'up', 'down')
+	movement_direction = Input.get_vector('left1', 'right1', 'up1', 'down1')
 	if not menu_running:
 		velocity = movement_direction * speed
 		find_facing_direction()
@@ -22,24 +11,22 @@ func _physics_process(delta: float) -> void:
 
 func _input(_event: InputEvent) -> void:
 	if menu_running:
-		if Input.is_action_just_pressed("down"):
+		if Input.is_action_just_pressed("down1"):
 			change_menu(menu_vector_directions[Movement.DOWN])
-		if Input.is_action_just_pressed("up"):
+		if Input.is_action_just_pressed("up1"):
 			change_menu(menu_vector_directions[Movement.UP])
-		if Input.is_action_just_pressed("right"):
+		if Input.is_action_just_pressed("right1"):
 			change_menu(menu_vector_directions[Movement.RIGHT])
-		if Input.is_action_just_pressed("left"):
+		if Input.is_action_just_pressed("left1"):
 			change_menu(menu_vector_directions[Movement.LEFT])
-		if Input.is_action_just_pressed("exit"):
+		if Input.is_action_just_pressed("exit1"):
 			menu_running = false
-		if Input.is_action_just_pressed("interact"):
+		if Input.is_action_just_pressed("interact1"):
 			menu_running = false
 			Order.emit(current_menu_topping_selected)
 			return
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact1"):
 		if await roll_dough():
-			return
-		if is_rolling_dough:
 			return
 		interact.emit(inventory)
 		return
@@ -50,8 +37,7 @@ func animate():
 	$OrderMenu.visible = menu_running
 	for label in $DoughRolling.get_children():
 		label.visible = false
-	if inventory.value is Dough:
-		if not inventory.value.rollable: return
+	if inventory.value is Dough and inventory.value.rollable:
 		$DoughRolling/ClickEToRoll.visible = true
 	elif is_rolling_dough:
 		$DoughRolling/CurrentlyRolling.visible = true
@@ -95,8 +81,6 @@ func find_facing_direction():
 		if rounded_movement_direction_y == 1:
 			facing_direction = Movement.DOWN
 
-var is_rolling_dough: bool
-
 func roll_dough():
 	if not inventory.value is Dough:
 		return false
@@ -116,6 +100,8 @@ func set_ingredient_menu():
 		part.normal = topping.normal
 		part.selected = topping.selected
 		part.topping = topping.new(false)
+		if part.topping is Dough:
+			print(part.topping.rollable)
 		$OrderMenu/IngredientList.add_child(part)
 	var column: int = 0
 	var row = []
@@ -128,19 +114,6 @@ func set_ingredient_menu():
 		column += 1
 	if not row.is_empty():
 		list_of_ingredients.append(row)
-
-var ingredient_menu_part = preload("res://scenes/ui/ingredient_menu_part.tscn")
-var menu_running: bool = false
-var current_menu_position: Vector2
-var list_of_ingredients: Array
-const menu_vector_directions = {
-	Movement.DOWN: Vector2(0,1),
-	Movement.UP: Vector2(0,-1),
-	Movement.LEFT: Vector2(-1,0),
-	Movement.RIGHT: Vector2(1,0)
-}
-var current_menu_topping_selected: Topping
-signal Order
 
 func order_ingredients(order_station):
 	$OrderMenu.visible = true

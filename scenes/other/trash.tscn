@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqx2nwqhsa3np"]
+
+[ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_7mohq"]
+[ext_resource type="Script" uid="uid://d26w0ivdc3kjy" path="res://trash_interact.gd" id="2_4fr8g"]
+
+[node name="Trash" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_7mohq")]
+interact_component = NodePath("trash_interact")
+
+[node name="Label" type="Label" parent="." index="4"]
+offset_left = -23.0
+offset_top = -24.0
+offset_right = 25.0
+offset_bottom = 25.0
+text = "Trash 
+can"
+horizontal_alignment = 1
+
+[node name="trash_interact" type="Node2D" parent="." index="5"]
+script = ExtResource("2_4fr8g")
