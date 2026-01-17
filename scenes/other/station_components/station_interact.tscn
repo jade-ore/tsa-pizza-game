@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw0pl7auprbfm"]
+
+[ext_resource type="Script" uid="uid://drdhav4xol56e" path="res://scenes/other/station_components/station_interact.gd" id="1_k71s1"]
+
+[node name="StationInteract" type="Node2D"]
+script = ExtResource("1_k71s1")

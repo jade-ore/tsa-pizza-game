@@ -9,6 +9,8 @@ func run(plr_inventory):
 		item = plr_inventory.subtract()
 		inventory.add(item)
 		return
+	if inventory.amount == 0:
+		return
 	item = inventory.subtract()
 	if item:
 		plr_inventory.add(item)

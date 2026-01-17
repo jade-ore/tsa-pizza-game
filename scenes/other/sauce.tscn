@@ -1,13 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://barvgil0sp5ec"]
+[gd_scene load_steps=8 format=3 uid="uid://barvgil0sp5ec"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_gdqhi"]
 [ext_resource type="Texture2D" uid="uid://dlenu3rkhdlus" path="res://assets/img/objects/sauce/sauce_selected.png" id="2_bifvy"]
-[ext_resource type="Script" uid="uid://6xy4a4ynmh85" path="res://scenes/other/sauce-interact.gd" id="2_n7sos"]
 [ext_resource type="Texture2D" uid="uid://yts70g8mkx4" path="res://assets/img/objects/sauce/sauce_faced.png" id="3_x16tm"]
 [ext_resource type="Texture2D" uid="uid://gysehwvfsp1o" path="res://assets/img/objects/sauce/sauce_normal.png" id="4_7i1v1"]
+[ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="5_bifvy"]
+[ext_resource type="Script" uid="uid://csyfr68ba2r4g" path="res://scenes/other/sauce_inventory.gd" id="6_7i1v1"]
+[ext_resource type="Script" uid="uid://c42yqlw8y284g" path="res://scenes/other/saucelabel.gd" id="7_d3rjp"]
 
 [node name="Sauce" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_gdqhi")]
-interact_component = NodePath("InteractComponent")
+interact_component = NodePath("StationInteract")
 selected = ExtResource("2_bifvy")
 faced = ExtResource("3_x16tm")
 normal = ExtResource("4_7i1v1")
@@ -15,5 +17,13 @@ normal = ExtResource("4_7i1v1")
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("4_7i1v1")
 
-[node name="InteractComponent" type="Node2D" parent="." index="4"]
-script = ExtResource("2_n7sos")
+[node name="StationInteract" parent="." index="4" node_paths=PackedStringArray("inventory") instance=ExtResource("5_bifvy")]
+inventory = NodePath("../SauceInventory")
+
+[node name="SauceInventory" type="Node2D" parent="." index="5"]
+script = ExtResource("6_7i1v1")
+
+[node name="Label" type="Label" parent="." index="6"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("7_d3rjp")

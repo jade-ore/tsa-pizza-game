@@ -4,7 +4,7 @@ class_name ToppingStationInventoryComponent
 var amount = 1
 
 func _ready() -> void:
-	value = Dough.new(true)
+	push_warning(self, " has no value")
 
 func add(item, a = 1):
 	if not value:

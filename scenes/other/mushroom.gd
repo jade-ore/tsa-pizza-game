@@ -1,6 +1,15 @@
 extends InteractComponent
 
-var item: Topping = Mushrooms.new(true)
+@export var inventory: ToppingStationInventoryComponent
 
-func run(inventory):
-	inventory.add(item)
+func run(plr_inventory):
+	var item
+	if plr_inventory.value:
+		if str(plr_inventory) != str(inventory.value): return
+		item = plr_inventory.subtract()
+		inventory.add(item)
+		return
+	item = inventory.subtract()
+	print(item)
+	if item:
+		plr_inventory.add(item)

@@ -1,4 +1,4 @@
 extends ToppingStationInventoryComponent
 
 func _ready() -> void:
-	value = Dough.new(true)
+	value = Olives.new(true)
