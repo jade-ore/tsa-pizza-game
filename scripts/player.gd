@@ -7,6 +7,7 @@ var movement_direction: Vector2
 var speed: int = 500
 var facing_direction = 0
 var last_direction: Vector2
+var current_menu: String = ""
 
 @export var inventory: InventoryComponent
 @export var time_it_takes_to_roll_dough: float = 2
@@ -31,10 +32,15 @@ func _input(_event: InputEvent) -> void:
 		if Input.is_action_just_pressed("left"):
 			change_menu(menu_vector_directions[Movement.LEFT])
 		if Input.is_action_just_pressed("exit"):
-			menu_running = false
+			if current_menu == "order":
+				menu_running = false
 		if Input.is_action_just_pressed("interact"):
-			menu_running = false
-			Order.emit(current_menu_topping_selected)
+			if current_menu == "order":
+				menu_running = false
+				Order.emit(current_menu_topping_selected)
+			if current_menu == "dough":
+				EnteredDoughSize.emit()
+			current_menu = ""
 			return
 	if Input.is_action_just_pressed("interact"):
 		if await roll_dough():
@@ -45,9 +51,7 @@ func _input(_event: InputEvent) -> void:
 		return
 
 func animate():
-	$"../CanvasLayer/Label".text = "Player 1 items: " + str(inventory)
 	$AnimatedSprite2D.frame = facing_direction
-	$OrderMenu.visible = menu_running
 	for label in $DoughRolling.get_children():
 		label.visible = false
 	if inventory.value is Dough:
@@ -57,12 +61,23 @@ func animate():
 		$DoughRolling/CurrentlyRolling.visible = true
 	
 	# order menu
-	var selected_part = list_of_ingredients[current_menu_position.y][current_menu_position.x]
-	for part in $OrderMenu/IngredientList.get_children():
-		part.texture = part.normal
-	selected_part.texture = selected_part.selected
-	current_menu_topping_selected = selected_part.topping
-
+	if current_menu == "order":
+		$OrderMenu.visible = true
+		var selected_part = list_of_ingredients[current_menu_position.y][current_menu_position.x]
+		for part in $OrderMenu/IngredientList.get_children():
+			part.texture = part.normal
+		selected_part.texture = selected_part.selected
+		current_menu_topping_selected = selected_part.topping
+	if current_menu == "dough":
+		$DoughSizeSelection.visible = true
+		var parts = $DoughSizeSelection/HBoxContainer.get_children()
+		for part in parts:
+			part.texture = part.normal
+		var selected_part = parts[current_dough_pos]
+		selected_part.texture = selected_part.selected
+	if current_menu == "":
+		$DoughSizeSelection.visible = false
+		$OrderMenu.visible = false
 func get_direction():
 	return facing_direction
 
@@ -106,11 +121,11 @@ func roll_dough():
 	var subtracted = inventory.subtract()
 	is_rolling_dough = true
 	await timer.timeout
-	inventory.add(Pizza.new())
+	inventory.add(Pizza.new(subtracted.size))
 	is_rolling_dough = false
 	return true
 
-func set_ingredient_menu():
+func prepare_menus():
 	for topping in Global.list_of_ingredients: 
 		var part = ingredient_menu_part.instantiate() as IngredientMenuPart
 		part.normal = topping.normal
@@ -128,6 +143,8 @@ func set_ingredient_menu():
 		column += 1
 	if not row.is_empty():
 		list_of_ingredients.append(row)
+	$OrderMenu.visible = false
+	$DoughSizeSelection.visible = false
 
 var ingredient_menu_part = preload("res://scenes/ui/ingredient_menu_part.tscn")
 var menu_running: bool = false
@@ -141,18 +158,34 @@ const menu_vector_directions = {
 }
 var current_menu_topping_selected: Topping
 signal Order
+signal EnteredDoughSize
+var current_dough_pos: int
+
+func get_dough_size():
+	$DoughSizeSelection.visible = true
+	current_menu = "dough"
+	menu_running = true
+	await EnteredDoughSize
+	menu_running = false
+	return current_dough_pos
 
 func order_ingredients(order_station):
 	$OrderMenu.visible = true
+	current_menu = "order"
 	menu_running = true
 
 func change_menu(d: Vector2):
 	var direction = d
-	if current_menu_position.x + direction.x < 0 or \
-	current_menu_position.x + direction.x > len(list_of_ingredients[current_menu_position.y]) - 1:
-		direction = Vector2(0,0)
-	if (current_menu_position.y + direction.y < 0 or current_menu_position.y + direction.y > 1):
-		direction = Vector2(0,0)
-	elif len(list_of_ingredients[current_menu_position.y + direction.y]) < current_menu_position.x + 1:
-		direction = Vector2(0,0)
-	current_menu_position += direction
+	if current_menu == "order":
+		if current_menu_position.x + direction.x < 0 or \
+		current_menu_position.x + direction.x > len(list_of_ingredients[current_menu_position.y]) - 1:
+			direction = Vector2(0,0)
+		if (current_menu_position.y + direction.y < 0 or current_menu_position.y + direction.y > 1):
+			direction = Vector2(0,0)
+		elif len(list_of_ingredients[current_menu_position.y + direction.y]) < current_menu_position.x + 1:
+			direction = Vector2(0,0)
+		current_menu_position += direction
+	elif current_menu == "dough":
+		if current_dough_pos + direction.x > 2 or current_dough_pos + direction.x < 0:
+			direction = Vector2(0, 0)
+		current_dough_pos += direction.x

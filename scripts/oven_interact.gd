@@ -12,6 +12,7 @@ func run(plr_inventory: InventoryComponent):
 	if inventory.value == null:
 		oven_cook(plr_inventory)
 		return
+	if plr_inventory.value != null: return
 	pizza = null
 	$"../CookTimer".stop()
 	$"../Control/Label".text = "Oven"

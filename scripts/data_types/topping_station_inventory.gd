@@ -4,7 +4,7 @@ class_name ToppingStationInventoryComponent
 var amount = 1
 
 func _ready() -> void:
-	push_warning(self, " has no value")
+	push_warning(self.get_parent(), " has no value")
 
 func add(item, a = 1):
 	if not value:
@@ -16,11 +16,11 @@ func add(item, a = 1):
 func get_amount():
 	return amount
 
-func subtract():
-	amount -= 1
-	var temp = value
+func subtract(_amount = 1):
 	if amount == 0:
-		value = null
+		return null
+	amount -= _amount
+	var temp = value
 	return temp
 
 func _to_string() -> String:

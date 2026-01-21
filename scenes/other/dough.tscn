@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b52qdqtawgah8"]
+[gd_scene load_steps=9 format=3 uid="uid://b52qdqtawgah8"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_jujx5"]
 [ext_resource type="Texture2D" uid="uid://dxbjoyc4v6f5h" path="res://assets/img/objects/dough/dough_selected.png" id="2_mnvjp"]
@@ -7,8 +7,10 @@
 [ext_resource type="Script" uid="uid://canlnqh18cpdi" path="res://scenes/other/dough_inventory.gd" id="6_eghua"]
 [ext_resource type="Script" uid="uid://d33i53hy4b3yk" path="res://scenes/other/dough_amount.gd" id="7_dkyxd"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="7_eghua"]
+[ext_resource type="Script" uid="uid://bjvp2xpt12rfr" path="res://scenes/other/station_components/dough_interact.gd" id="8_dkyxd"]
 
-[node name="Dough" instance=ExtResource("1_jujx5")]
+[node name="Dough" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_jujx5")]
+interact_component = NodePath("InteractComponent")
 selected = ExtResource("2_mnvjp")
 faced = ExtResource("3_eghua")
 normal = ExtResource("2_n4idl")
@@ -30,4 +32,5 @@ script = ExtResource("7_dkyxd")
 metadata/_edit_use_anchors_ = true
 
 [node name="InteractComponent" parent="." index="6" node_paths=PackedStringArray("inventory") instance=ExtResource("7_eghua")]
+script = ExtResource("8_dkyxd")
 inventory = NodePath("../InventoryComponent")

@@ -1,8 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2bfmw1631obc"]
+[gd_scene load_steps=17 format=3 uid="uid://c2bfmw1631obc"]
 
 [ext_resource type="Script" uid="uid://dmmfyacxtnqpa" path="res://scripts/player.gd" id="1_08t41"]
 [ext_resource type="Texture2D" uid="uid://brqn2xhmg5a0d" path="res://assets/img/sprites/player_frames.png" id="2_08t41"]
 [ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_1ie0h"]
+[ext_resource type="Script" uid="uid://cku4lxg8ttbwc" path="res://control.gd" id="4_b6tgf"]
+[ext_resource type="Texture2D" uid="uid://1jlj3knw80ds" path="res://assets/img/objects/dough/dough_faced.png" id="5_73kkf"]
+[ext_resource type="Texture2D" uid="uid://cihu74j7fvktt" path="res://assets/img/objects/dough/dough_normal.png" id="6_n5sgd"]
+[ext_resource type="Texture2D" uid="uid://b0rtubs22rcvv" path="res://assets/img/objects/mushrooms/mushrooms_selected.png" id="7_5ki56"]
+[ext_resource type="Texture2D" uid="uid://c8xxnh817pb5j" path="res://assets/img/objects/mushrooms/mushrooms_normal.png" id="8_saib0"]
+[ext_resource type="Texture2D" uid="uid://6t2jbirtsnky" path="res://assets/img/objects/olives/olives_faced.png" id="9_ogpgs"]
+[ext_resource type="Texture2D" uid="uid://gcaa44jgkp1r" path="res://assets/img/objects/olives/olives_normal.png" id="10_spk56"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ie0h"]
 atlas = ExtResource("2_08t41")
@@ -49,6 +56,7 @@ scale = Vector2(0.5, 0.5)
 collision_layer = 2
 script = ExtResource("1_08t41")
 inventory = NodePath("InventoryComponent")
+metadata/_edit_vertical_guides_ = [-23.0, -16.0, -12.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ss7kx")
@@ -111,3 +119,37 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 4
 metadata/_edit_use_anchors_ = true
+
+[node name="DoughSizeSelection" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DoughSizeSelection"]
+layout_mode = 0
+offset_left = -76.0
+offset_top = 40.0
+offset_right = 76.0
+offset_bottom = 112.0
+
+[node name="IngredientMenuPart" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_b6tgf")
+selected = ExtResource("5_73kkf")
+normal = ExtResource("6_n5sgd")
+metadata/_custom_type_script = "uid://cku4lxg8ttbwc"
+
+[node name="IngredientMenuPart2" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_b6tgf")
+selected = ExtResource("7_5ki56")
+normal = ExtResource("8_saib0")
+metadata/_custom_type_script = "uid://cku4lxg8ttbwc"
+
+[node name="IngredientMenuPart3" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_b6tgf")
+selected = ExtResource("9_ogpgs")
+normal = ExtResource("10_spk56")
+metadata/_custom_type_script = "uid://cku4lxg8ttbwc"

@@ -7,7 +7,7 @@
 size = Vector2(1392.0313, 71.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g70hs"]
-size = Vector2(20, 115)
+size = Vector2(1162, 137.5)
 
 [node name="BaseLevel" type="Node2D"]
 
