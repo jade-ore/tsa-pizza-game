@@ -1,13 +1,12 @@
-extends Sprite2D
+extends AnimatedSprite2D
 
-@export var faced = load("res://assets/img/objects/package/package_faced.png")
-@export var normal = load("res://assets/img/objects/package/package_normal.png")
-@export var selected = load("res://assets/img/objects/package/package_selected.png")
+enum {normal, faced, selected}
 
 @export var topping: Topping
 
 @export var inventory: ToppingStationInventoryComponent
 @export var detection_component: DetectionComponent
+@export var detection_component2: DetectionComponent
 
 var selected_check: bool
 
@@ -18,18 +17,28 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var is_near = detection_component.is_near
 	if is_near:
-		Global.selected_station = self
+		Global.selected_station1 = self
 		if selected_check:
 			return
-		self.set_texture(faced)
+		frame = faced
 		return
-	if Global.selected_station == self:
-		Global.selected_station = null
-	self.set_texture(normal)
+	if Global.selected_station1 == self:
+		Global.selected_station1 = null
+	frame = normal
+	var is_near2 = detection_component2.is_near
+	if is_near2:
+		Global.selected_station2 = self
+		if selected_check:
+			return
+		frame = faced
+		return
+	if Global.selected_station2 == self:
+		Global.selected_station2 = null
+	frame = normal
 
 func interact(plr_inventory: InventoryComponent):
 	selected_check = true
-	self.set_texture(selected)
+	frame = selected
 	$TextureTimer.start()
 	var item_subtracted = inventory.subtract()
 	if not plr_inventory.value:

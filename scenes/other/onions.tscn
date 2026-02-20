@@ -1,20 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://vrb1a3sxurv6"]
+[gd_scene load_steps=10 format=3 uid="uid://vrb1a3sxurv6"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_nfuml"]
-[ext_resource type="Texture2D" uid="uid://cqdeqah3qscyv" path="res://assets/img/objects/onions/onions_faced.png" id="2_iikba"]
-[ext_resource type="Texture2D" uid="uid://dibfk5w2k7jku" path="res://assets/img/objects/onions/onions_normal.png" id="3_0oiye"]
+[ext_resource type="Texture2D" uid="uid://ducx6drsq37hv" path="res://assets/img/objects/olives/Olives.png" id="2_0oiye"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="4_iikba"]
 [ext_resource type="Script" uid="uid://cnk3klaqxxtg1" path="res://scenes/other/onions_inventory.gd" id="5_w7yo7"]
 [ext_resource type="Script" uid="uid://byd72r6pwsc1w" path="res://scenes/other/onions_label.gd" id="6_1cj0y"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7yo7"]
+atlas = ExtResource("2_0oiye")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cj0y"]
+atlas = ExtResource("2_0oiye")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6covg"]
+atlas = ExtResource("2_0oiye")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rbef3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7yo7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cj0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6covg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Onions" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_nfuml")]
 interact_component = NodePath("StationInteract")
-selected = ExtResource("2_iikba")
-faced = ExtResource("3_0oiye")
-normal = ExtResource("3_0oiye")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("3_0oiye")
+sprite = SubResource("SpriteFrames_rbef3")
 
 [node name="StationInteract" parent="." index="4" node_paths=PackedStringArray("inventory") instance=ExtResource("4_iikba")]
 inventory = NodePath("../OnionsInventory")

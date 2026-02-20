@@ -3,8 +3,9 @@ class_name Olives
 
 @export var open: bool
 
-static var normal = load("res://assets/img/objects/olives/olives_normal.png")
-static var selected = load("res://assets/img/objects/olives/olives_selected.png")
+static var file_path = "res://assets/img/objects/olives/Olives.png"
+static var normal = get_normal_from_file(file_path)
+static var selected = get_selected_from_file(file_path)
 
 func _init(open_input: bool) -> void:
 	open = open_input

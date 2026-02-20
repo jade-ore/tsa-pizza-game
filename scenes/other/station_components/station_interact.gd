@@ -17,6 +17,5 @@ func run(plr_inventory):
 		inventory.add(item)
 		return
 	item = inventory.subtract()
-	print(item)
 	if item:
 		plr_inventory.add(item)

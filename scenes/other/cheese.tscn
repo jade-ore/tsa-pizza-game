@@ -1,21 +1,43 @@
-[gd_scene load_steps=8 format=3 uid="uid://dudf5dekhlqmg"]
+[gd_scene load_steps=10 format=3 uid="uid://dudf5dekhlqmg"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_wv3sh"]
-[ext_resource type="Texture2D" uid="uid://cm06aup3wgsp5" path="res://assets/img/objects/cheese/cheese_selected.png" id="2_e2dwk"]
-[ext_resource type="Texture2D" uid="uid://bywqgtpyvpy51" path="res://assets/img/objects/cheese/cheese_faced.png" id="3_7km22"]
-[ext_resource type="Texture2D" uid="uid://b8jc0et1j1a6p" path="res://assets/img/objects/cheese/cheese_normal.png" id="4_h4ar0"]
+[ext_resource type="Texture2D" uid="uid://civ20fvxy60tt" path="res://assets/img/objects/cheese/Cheese.png" id="2_0a6jl"]
 [ext_resource type="Script" uid="uid://cu3fp1we80s54" path="res://scenes/other/cheese_inventory.gd" id="6_4rug4"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="6_wv3sh"]
 [ext_resource type="Script" uid="uid://2bc4v6bl8iiq" path="res://scenes/other/cheeselabelnglnoname.gd" id="7_wv3sh"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rug4"]
+atlas = ExtResource("2_0a6jl")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv3sh"]
+atlas = ExtResource("2_0a6jl")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2dwk"]
+atlas = ExtResource("2_0a6jl")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7km22"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rug4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wv3sh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2dwk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Cheese" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_wv3sh")]
 interact_component = NodePath("StationInteract")
-selected = ExtResource("2_e2dwk")
-faced = ExtResource("3_7km22")
-normal = ExtResource("4_h4ar0")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("4_h4ar0")
+sprite = SubResource("SpriteFrames_7km22")
 
 [node name="CheeseInventory" type="Node2D" parent="." index="4"]
 script = ExtResource("6_4rug4")

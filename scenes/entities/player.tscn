@@ -1,15 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://c2bfmw1631obc"]
+[gd_scene load_steps=19 format=3 uid="uid://c2bfmw1631obc"]
 
 [ext_resource type="Script" uid="uid://dmmfyacxtnqpa" path="res://scripts/player.gd" id="1_08t41"]
 [ext_resource type="Texture2D" uid="uid://brqn2xhmg5a0d" path="res://assets/img/sprites/player_frames.png" id="2_08t41"]
 [ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_1ie0h"]
+[ext_resource type="Texture2D" uid="uid://cq8rstdukecpv" path="res://assets/img/sprites/girl_chef_still_2.png" id="3_73kkf"]
 [ext_resource type="Script" uid="uid://cku4lxg8ttbwc" path="res://control.gd" id="4_b6tgf"]
-[ext_resource type="Texture2D" uid="uid://1jlj3knw80ds" path="res://assets/img/objects/dough/dough_faced.png" id="5_73kkf"]
-[ext_resource type="Texture2D" uid="uid://cihu74j7fvktt" path="res://assets/img/objects/dough/dough_normal.png" id="6_n5sgd"]
-[ext_resource type="Texture2D" uid="uid://b0rtubs22rcvv" path="res://assets/img/objects/mushrooms/mushrooms_selected.png" id="7_5ki56"]
-[ext_resource type="Texture2D" uid="uid://c8xxnh817pb5j" path="res://assets/img/objects/mushrooms/mushrooms_normal.png" id="8_saib0"]
-[ext_resource type="Texture2D" uid="uid://6t2jbirtsnky" path="res://assets/img/objects/olives/olives_faced.png" id="9_ogpgs"]
-[ext_resource type="Texture2D" uid="uid://gcaa44jgkp1r" path="res://assets/img/objects/olives/olives_normal.png" id="10_spk56"]
+[ext_resource type="Texture2D" uid="uid://b5tgfdv6oqv5i" path="res://assets/img/objects/dough sizes/small.png" id="6_73kkf"]
+[ext_resource type="Texture2D" uid="uid://cyrfhm5t75cbx" path="res://assets/img/objects/dough sizes/large_selected.png" id="6_c5rqy"]
+[ext_resource type="Texture2D" uid="uid://s3tc2dedawm6" path="res://assets/img/objects/dough sizes/large.png" id="7_b6tgf"]
+[ext_resource type="Texture2D" uid="uid://dp4c11eiju2ki" path="res://assets/img/objects/dough sizes/small_selected.png" id="7_n5sgd"]
+[ext_resource type="Texture2D" uid="uid://c2wa6mx4v1lps" path="res://assets/img/objects/dough sizes/medium_selected.png" id="8_73kkf"]
+[ext_resource type="Texture2D" uid="uid://cb5pn5xvo327y" path="res://assets/img/objects/dough sizes/medium.png" id="9_n5sgd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ie0h"]
 atlas = ExtResource("2_08t41")
@@ -26,6 +27,10 @@ region = Rect2(100, 0, 50, 75)
 [sub_resource type="AtlasTexture" id="AtlasTexture_d4qa6"]
 atlas = ExtResource("2_08t41")
 region = Rect2(150, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5sgd"]
+atlas = ExtResource("3_73kkf")
+region = Rect2(0, 0, 371, 904)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ss7kx"]
 animations = [{
@@ -45,13 +50,22 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5sgd")
+}],
+"loop": true,
+"name": &"test",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_42nxq"]
-radius = 18.0
-height = 66.0
+radius = 32.0
+height = 180.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("inventory")]
+y_sort_enabled = true
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 script = ExtResource("1_08t41")
@@ -59,20 +73,25 @@ inventory = NodePath("InventoryComponent")
 metadata/_edit_vertical_guides_ = [-23.0, -16.0, -12.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.30929917, 0.30929917)
 sprite_frames = SubResource("SpriteFrames_ss7kx")
+animation = &"test"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 28)
 shape = SubResource("CapsuleShape2D_42nxq")
 
 [node name="InventoryComponent" parent="." instance=ExtResource("3_1ie0h")]
 
 [node name="DoughRolling" type="Control" parent="."]
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0
 offset_top = -66.0
 offset_right = 68.0
 offset_bottom = 40.0
+metadata/_edit_lock_ = true
 
 [node name="ClickEToRoll" type="Label" parent="DoughRolling"]
 visible = false
@@ -107,6 +126,7 @@ offset_left = -84.0
 offset_top = 40.0
 offset_right = 84.0
 offset_bottom = 262.0
+metadata/_edit_lock_ = true
 
 [node name="IngredientList" type="GridContainer" parent="OrderMenu"]
 custom_minimum_size = Vector2(30, 30)
@@ -119,37 +139,40 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 4
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="DoughSizeSelection" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DoughSizeSelection"]
 layout_mode = 0
 offset_left = -76.0
 offset_top = 40.0
 offset_right = 76.0
-offset_bottom = 112.0
+offset_bottom = 100.0
+metadata/_edit_lock_ = true
 
 [node name="IngredientMenuPart" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_b6tgf")
-selected = ExtResource("5_73kkf")
-normal = ExtResource("6_n5sgd")
+selected = ExtResource("7_n5sgd")
+normal = ExtResource("6_73kkf")
 metadata/_custom_type_script = "uid://cku4lxg8ttbwc"
 
 [node name="IngredientMenuPart2" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_b6tgf")
-selected = ExtResource("7_5ki56")
-normal = ExtResource("8_saib0")
+selected = ExtResource("8_73kkf")
+normal = ExtResource("9_n5sgd")
 metadata/_custom_type_script = "uid://cku4lxg8ttbwc"
 
 [node name="IngredientMenuPart3" type="TextureRect" parent="DoughSizeSelection/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_b6tgf")
-selected = ExtResource("9_ogpgs")
-normal = ExtResource("10_spk56")
+selected = ExtResource("6_c5rqy")
+normal = ExtResource("7_b6tgf")
 metadata/_custom_type_script = "uid://cku4lxg8ttbwc"

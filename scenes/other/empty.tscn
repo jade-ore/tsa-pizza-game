@@ -1,11 +1,42 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd0fsm4oc8n8r"]
+[gd_scene load_steps=9 format=3 uid="uid://cd0fsm4oc8n8r"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_4oxih"]
 [ext_resource type="Script" uid="uid://rj850cq0jfbb" path="res://scripts/station_interact.gd" id="2_0qvn8"]
+[ext_resource type="Texture2D" uid="uid://cpow48kfb1wfr" path="res://assets/img/objects/table/Table.png" id="2_pqc4u"]
 [ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_0qvn8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn207"]
+atlas = ExtResource("2_pqc4u")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbsa0"]
+atlas = ExtResource("2_pqc4u")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrb5a"]
+atlas = ExtResource("2_pqc4u")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uckxh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn207")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbsa0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nrb5a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Empty" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_4oxih")]
 interact_component = NodePath("StationInteract")
+sprite = SubResource("SpriteFrames_uckxh")
 
 [node name="StationInteract" type="Node2D" parent="." index="4" node_paths=PackedStringArray("inventory")]
 script = ExtResource("2_0qvn8")

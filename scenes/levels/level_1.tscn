@@ -1,18 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://8irfm5xdcfn4"]
+[gd_scene load_steps=22 format=3 uid="uid://8irfm5xdcfn4"]
 
 [ext_resource type="PackedScene" uid="uid://b1nd6w70ktdsu" path="res://scenes/levels/000_base_level.tscn" id="1_x6ivy"]
 [ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/other/dough.tscn" id="2_6iamk"]
 [ext_resource type="Script" uid="uid://bq6gwn2an4q2v" path="res://scenes/levels/level_1.gd" id="2_wtwp4"]
 [ext_resource type="PackedScene" uid="uid://dudf5dekhlqmg" path="res://scenes/other/cheese.tscn" id="3_nsrm0"]
 [ext_resource type="PackedScene" uid="uid://cd0fsm4oc8n8r" path="res://scenes/other/empty.tscn" id="4_x42e6"]
-[ext_resource type="PackedScene" uid="uid://ctnypau81ysbu" path="res://scenes/other/mushrooms.tscn" id="5_6761a"]
-[ext_resource type="PackedScene" uid="uid://vrb1a3sxurv6" path="res://scenes/other/onions.tscn" id="5_dga24"]
-[ext_resource type="Texture2D" uid="uid://bavy6y6ijw0rq" path="res://assets/img/objects/onions/onions_selected.png" id="5_sk5k4"]
-[ext_resource type="Texture2D" uid="uid://cqdeqah3qscyv" path="res://assets/img/objects/onions/onions_faced.png" id="6_oc4kc"]
-[ext_resource type="PackedScene" uid="uid://b4c47l5s73gxe" path="res://scenes/other/olives.tscn" id="6_sk5k4"]
 [ext_resource type="PackedScene" uid="uid://b0osgtkrnhtfh" path="res://scenes/other/oven.tscn" id="7_dnkej"]
-[ext_resource type="PackedScene" uid="uid://ddtpo0k6uoj1p" path="res://scenes/other/sausage.tscn" id="8_qxy0u"]
-[ext_resource type="PackedScene" uid="uid://dga2dsco83nod" path="res://scenes/other/pepperoni.tscn" id="9_excbq"]
 [ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/other/sauce.tscn" id="10_qxy0u"]
 [ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/other/cashier_station.tscn" id="14_mm8aj"]
 [ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/other/order_station.tscn" id="15_iwr0g"]
@@ -22,8 +15,10 @@
 [ext_resource type="Script" uid="uid://cybunr56w12rm" path="res://scenes/levels/inventory_label.gd" id="19_v6ha0"]
 [ext_resource type="Script" uid="uid://di1ex1sqqsrm1" path="res://scenes/levels/ordering.gd" id="20_gmpev"]
 [ext_resource type="Script" uid="uid://bneot0rnisngv" path="res://scenes/levels/time.gd" id="21_mkypq"]
+[ext_resource type="Script" uid="uid://bcdwn8ifhnu4x" path="res://scenes/levels/inventory_2.gd" id="21_o7j4k"]
 [ext_resource type="Script" uid="uid://d3p53nvejyl6b" path="res://scenes/levels/rating.gd" id="23_mqh5v"]
 [ext_resource type="Texture2D" uid="uid://cn885onptrigd" path="res://assets/img/sprites/stars (1).png" id="24_7o3do"]
+[ext_resource type="Script" uid="uid://b2p68uy56xtur" path="res://scenes/levels/end_screen.gd" id="25_7o3do"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
 size = Vector2(1392.0313, 71.125)
@@ -87,37 +82,28 @@ rotation = -1.5707964
 position = Vector2(904, 208)
 rotation = -1.5707964
 
-[node name="Empty2" parent="Stations" index="5" instance=ExtResource("4_x42e6")]
+[node name="Empty3" parent="Stations" index="5" instance=ExtResource("4_x42e6")]
+position = Vector2(736, 440)
+rotation = -4.712389
+
+[node name="Empty4" parent="Stations" index="6" instance=ExtResource("4_x42e6")]
+position = Vector2(792, 440)
+rotation = -4.712389
+
+[node name="Empty5" parent="Stations" index="7" instance=ExtResource("4_x42e6")]
+position = Vector2(848, 440)
+rotation = -4.712389
+
+[node name="Empty2" parent="Stations" index="8" instance=ExtResource("4_x42e6")]
 position = Vector2(960, 208)
 rotation = -1.5707964
 
-[node name="Mushrooms" parent="Stations" index="6" instance=ExtResource("5_6761a")]
-position = Vector2(1072, 208)
-rotation = -1.5707964
-
-[node name="Onions" parent="Stations" index="7" instance=ExtResource("5_dga24")]
-position = Vector2(1016, 208)
-rotation = -1.5707964
-selected = ExtResource("5_sk5k4")
-faced = ExtResource("6_oc4kc")
-
-[node name="Olives" parent="Stations" index="8" instance=ExtResource("6_sk5k4")]
-position = Vector2(848, 440)
-rotation = 1.5707964
-
-[node name="Pepperoni" parent="Stations" index="9" instance=ExtResource("9_excbq")]
-position = Vector2(792, 440)
-rotation = 1.5707964
-
-[node name="Sausage" parent="Stations" index="10" instance=ExtResource("8_qxy0u")]
-position = Vector2(736, 440)
-rotation = 1.5707964
-
-[node name="Oven" parent="Stations" index="11" instance=ExtResource("7_dnkej")]
+[node name="Oven" parent="Stations" index="9" instance=ExtResource("7_dnkej")]
+z_index = 1
 position = Vector2(680, 440)
 rotation = 1.5707964
 
-[node name="Trash" parent="Stations" index="12" instance=ExtResource("16_bahl2")]
+[node name="Trash" parent="Stations" index="10" instance=ExtResource("16_bahl2")]
 position = Vector2(624, 208)
 rotation = -1.5707964
 
@@ -130,22 +116,19 @@ position = Vector2(328, 216)
 rotation = -3.1415925
 
 [node name="CashierStation3" parent="CashierStations" index="2" instance=ExtResource("14_mm8aj")]
-position = Vector2(328, 408)
+position = Vector2(328, 416)
 rotation = -3.1415925
 
 [node name="OrderStation" parent="OrderStations" index="0" instance=ExtResource("15_iwr0g")]
+z_index = 1
 position = Vector2(624, 440)
 rotation = 1.5707964
 
-[node name="CustomerTimer" parent="." index="7"]
-wait_time = 0.1
-autostart = true
-
-[node name="MinuteTimer" type="Timer" parent="." index="8"]
+[node name="MinuteTimer" type="Timer" parent="." index="7"]
 autostart = true
 script = ExtResource("18_ndtll")
 
-[node name="GameInfo" type="CanvasLayer" parent="." index="9"]
+[node name="GameInfo" type="CanvasLayer" parent="." index="8"]
 
 [node name="Background" type="ColorRect" parent="GameInfo" index="0"]
 custom_minimum_size = Vector2(1152, 0)
@@ -278,7 +261,6 @@ autowrap_mode = 2
 script = ExtResource("19_v6ha0")
 
 [node name="Player2" type="ColorRect" parent="GameInfo/Inventory" index="1"]
-visible = false
 layout_mode = 0
 anchor_left = 24.4
 anchor_top = 12.0
@@ -294,6 +276,16 @@ anchor_bottom = 0.13690476
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Player 2 Inventory"
 metadata/_edit_use_anchors_ = true
+
+[node name="Inventory2" type="Label" parent="GameInfo/Inventory/Player2" index="1"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 31.0
+offset_right = 158.0
+offset_bottom = 157.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+script = ExtResource("21_o7j4k")
 
 [node name="Ordering" type="Control" parent="GameInfo" index="3"]
 layout_mode = 3
@@ -329,6 +321,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="AmountOfMoney" type="ColorRect" parent="GameInfo" index="4"]
+visible = false
 anchors_preset = -1
 anchor_left = 18.0
 anchor_top = 12.2
@@ -372,36 +365,83 @@ anchor_bottom = 0.8333333
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Rating" type="Control" parent="GameInfo" index="6"]
+[node name="EndScreen" type="Control" parent="." index="9"]
+visible = false
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
-offset_left = 872.0
-offset_top = 48.0
-offset_right = 912.0
-offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("25_7o3do")
+metadata/_edit_use_anchors_ = true
+
+[node name="BG" type="ColorRect" parent="EndScreen" index="0"]
+layout_mode = 0
+offset_right = 1216.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.73333335)
+
+[node name="EndCard" type="ColorRect" parent="EndScreen" index="1"]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 88.0
+offset_right = 784.0
+offset_bottom = 616.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="EndScreen/EndCard" index="0"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 368.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "END OF GAMEEEE"
+
+[node name="Button" type="Button" parent="EndScreen/EndCard" index="1"]
+layout_mode = 0
+anchor_left = 0.06122449
+anchor_top = 0.6363636
+anchor_right = 0.93877554
+anchor_bottom = 0.92424244
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+theme_override_colors/icon_hover_color = Color(0.13682577, 0.13682574, 0.13682571, 1)
+text = "RETURN TO HOMESCREEN"
+metadata/_edit_use_anchors_ = true
+
+[node name="Rating" type="Control" parent="EndScreen" index="2"]
+anchors_preset = 0
+offset_left = 496.0
+offset_top = 184.0
+offset_right = 536.0
+offset_bottom = 224.0
 script = ExtResource("23_mqh5v")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="GameInfo/Rating" index="0"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="EndScreen/Rating" index="0"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.2
-anchor_right = 7.3
-anchor_bottom = 1.5
+anchor_left = -1.175
+anchor_top = 1.0
+anchor_right = 6.325
+anchor_bottom = 2.5
 max_value = 5.0
 step = 0.1
-value = 2.5
+value = 5.0
 texture_progress = ExtResource("24_7o3do")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="GameInfo/Rating" index="1"]
+[node name="Label" type="Label" parent="EndScreen/Rating" index="1"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -7.0
-anchor_top = 0.2
-anchor_right = -1.525
-anchor_bottom = 1.4
+anchor_left = -0.75
+anchor_top = -0.775
+anchor_right = 5.975
+anchor_bottom = 0.425
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Average rating: "
 metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="MinuteTimer" to="." method="on_game_tick"]
+[connection signal="pressed" from="EndScreen/EndCard/Button" to="EndScreen" method="_on_button_pressed"]

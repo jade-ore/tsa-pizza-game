@@ -1,22 +1,44 @@
-[gd_scene load_steps=9 format=3 uid="uid://b52qdqtawgah8"]
+[gd_scene load_steps=11 format=3 uid="uid://b52qdqtawgah8"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_jujx5"]
-[ext_resource type="Texture2D" uid="uid://dxbjoyc4v6f5h" path="res://assets/img/objects/dough/dough_selected.png" id="2_mnvjp"]
-[ext_resource type="Texture2D" uid="uid://cihu74j7fvktt" path="res://assets/img/objects/dough/dough_normal.png" id="2_n4idl"]
-[ext_resource type="Texture2D" uid="uid://1jlj3knw80ds" path="res://assets/img/objects/dough/dough_faced.png" id="3_eghua"]
+[ext_resource type="Texture2D" uid="uid://boyu7msiruaj5" path="res://assets/img/objects/dough/Dough.png" id="2_dgkwf"]
 [ext_resource type="Script" uid="uid://canlnqh18cpdi" path="res://scenes/other/dough_inventory.gd" id="6_eghua"]
 [ext_resource type="Script" uid="uid://d33i53hy4b3yk" path="res://scenes/other/dough_amount.gd" id="7_dkyxd"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="7_eghua"]
 [ext_resource type="Script" uid="uid://bjvp2xpt12rfr" path="res://scenes/other/station_components/dough_interact.gd" id="8_dkyxd"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_p072b"]
+atlas = ExtResource("2_dgkwf")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n33go"]
+atlas = ExtResource("2_dgkwf")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0680"]
+atlas = ExtResource("2_dgkwf")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xaweq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p072b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n33go")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0680")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Dough" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_jujx5")]
 interact_component = NodePath("InteractComponent")
-selected = ExtResource("2_mnvjp")
-faced = ExtResource("3_eghua")
-normal = ExtResource("2_n4idl")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("2_n4idl")
+sprite = SubResource("SpriteFrames_xaweq")
 
 [node name="InventoryComponent" type="Node2D" parent="." index="4"]
 script = ExtResource("6_eghua")

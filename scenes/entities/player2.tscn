@@ -1,0 +1,67 @@
+[gd_scene load_steps=11 format=3 uid="uid://gq2vp0qqrrli"]
+
+[ext_resource type="PackedScene" uid="uid://c2bfmw1631obc" path="res://scenes/entities/player.tscn" id="1_1c6fs"]
+[ext_resource type="Script" uid="uid://bhoqxqvkbdvaq" path="res://scenes/entities/player_2.gd" id="2_n6ogg"]
+[ext_resource type="Texture2D" uid="uid://bti62lwldeegb" path="res://assets/img/sprites/player_2_frames.png" id="3_bnfdn"]
+[ext_resource type="Texture2D" uid="uid://r2y6xttrcc2p" path="res://assets/img/sprites/boy_chef_still_2.png" id="4_bwwag"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwwag"]
+atlas = ExtResource("3_bnfdn")
+region = Rect2(0, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e261l"]
+atlas = ExtResource("3_bnfdn")
+region = Rect2(50, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qie1l"]
+atlas = ExtResource("3_bnfdn")
+region = Rect2(100, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kreu"]
+atlas = ExtResource("3_bnfdn")
+region = Rect2(150, 0, 50, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpg6f"]
+atlas = ExtResource("4_bwwag")
+region = Rect2(0, 0, 429, 966)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tpg6f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwwag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e261l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qie1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kreu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpg6f")
+}],
+"loop": true,
+"name": &"solo",
+"speed": 5.0
+}]
+
+[node name="Player2" instance=ExtResource("1_1c6fs")]
+collision_layer = 4
+script = ExtResource("2_n6ogg")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+visible = false
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." index="6"]
+position = Vector2(-7.9999995, -10)
+scale = Vector2(0.31759906, 0.3175991)
+sprite_frames = SubResource("SpriteFrames_tpg6f")
+animation = &"solo"

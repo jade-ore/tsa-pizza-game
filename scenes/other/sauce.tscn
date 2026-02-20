@@ -1,21 +1,43 @@
-[gd_scene load_steps=8 format=3 uid="uid://barvgil0sp5ec"]
+[gd_scene load_steps=10 format=3 uid="uid://barvgil0sp5ec"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_gdqhi"]
-[ext_resource type="Texture2D" uid="uid://dlenu3rkhdlus" path="res://assets/img/objects/sauce/sauce_selected.png" id="2_bifvy"]
-[ext_resource type="Texture2D" uid="uid://yts70g8mkx4" path="res://assets/img/objects/sauce/sauce_faced.png" id="3_x16tm"]
-[ext_resource type="Texture2D" uid="uid://gysehwvfsp1o" path="res://assets/img/objects/sauce/sauce_normal.png" id="4_7i1v1"]
+[ext_resource type="Texture2D" uid="uid://c7plp5r2tvayv" path="res://assets/img/objects/sauce/Sauce.png" id="2_bifvy"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="5_bifvy"]
 [ext_resource type="Script" uid="uid://csyfr68ba2r4g" path="res://scenes/other/sauce_inventory.gd" id="6_7i1v1"]
 [ext_resource type="Script" uid="uid://c42yqlw8y284g" path="res://scenes/other/saucelabel.gd" id="7_d3rjp"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_x16tm"]
+atlas = ExtResource("2_bifvy")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i1v1"]
+atlas = ExtResource("2_bifvy")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3rjp"]
+atlas = ExtResource("2_bifvy")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ri778"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x16tm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7i1v1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3rjp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Sauce" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_gdqhi")]
 interact_component = NodePath("StationInteract")
-selected = ExtResource("2_bifvy")
-faced = ExtResource("3_x16tm")
-normal = ExtResource("4_7i1v1")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("4_7i1v1")
+sprite = SubResource("SpriteFrames_ri778")
 
 [node name="StationInteract" parent="." index="4" node_paths=PackedStringArray("inventory") instance=ExtResource("5_bifvy")]
 inventory = NodePath("../SauceInventory")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjbcwll7756eh"]
+[gd_scene load_steps=5 format=3 uid="uid://bjbcwll7756eh"]
 
 [ext_resource type="Script" uid="uid://dbe86f787ne3f" path="res://scenes/ui/current_hotkeys.gd" id="1_8wfqe"]
 [ext_resource type="Script" uid="uid://dg2313d6oqta8" path="res://scenes/ui/exit.gd" id="1_h175o"]
+[ext_resource type="Script" uid="uid://c7iv3ggnpighy" path="res://scenes/ui/settings.gd" id="1_ptynm"]
 [ext_resource type="Script" uid="uid://dq8y1ee5iowhe" path="res://scenes/ui/change_buttons.gd" id="2_7pacj"]
 
 [node name="KeybindChange" type="Control"]
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ptynm")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -22,32 +24,34 @@ grow_vertical = 2
 color = Color(0.96862745, 0.44313726, 0.49019608, 1)
 metadata/_edit_lock_ = true
 
-[node name="Player1Toggle" type="Button" parent="."]
+[node name="PlayerToggle" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Player1Toggle" type="Button" parent="PlayerToggle"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.359375
-anchor_top = 0.046296295
-anchor_right = 0.5208333
-anchor_bottom = 0.1404321
-offset_left = -12.0
-offset_top = -3.999998
-offset_right = -12.0
-offset_bottom = -4.0
+anchor_left = 0.30555555
+anchor_top = 0.03549383
+anchor_right = 0.4982639
+anchor_bottom = 0.13425925
 text = "Player 1"
 metadata/_edit_use_anchors_ = true
 
-[node name="Player2Toggle" type="Button" parent="."]
+[node name="Player2Toggle" type="Button" parent="PlayerToggle"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5243056
-anchor_top = 0.046296295
-anchor_right = 0.6857639
-anchor_bottom = 0.1404321
-offset_left = -12.0
-offset_top = -3.999998
-offset_right = -12.0
-offset_bottom = -4.0
+anchor_left = 0.5078125
+anchor_top = 0.033950616
+anchor_right = 0.7005208
+anchor_bottom = 0.13271604
 text = "Player 2"
+metadata/_edit_use_anchors_ = true
 
 [node name="Exit" type="Button" parent="."]
 layout_mode = 0
@@ -93,6 +97,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 49
 text = "Interact"
 
+[node name="Label6" type="Label" parent="Action"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 49
+text = "Exit"
+
 [node name="CurrentHotkeys" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -125,6 +134,11 @@ theme_override_font_sizes/font_size = 49
 text = "Move right"
 
 [node name="interact" type="Label" parent="CurrentHotkeys"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 49
+text = "Interact"
+
+[node name="exit" type="Label" parent="CurrentHotkeys"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 49
 text = "Interact"
@@ -166,5 +180,12 @@ custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 text = "CHANGE"
 
+[node name="exit" type="Button" parent="ChangeButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+text = "CHANGE"
+
+[connection signal="pressed" from="PlayerToggle/Player1Toggle" to="." method="_on_player_1_toggle_pressed"]
+[connection signal="pressed" from="PlayerToggle/Player2Toggle" to="." method="_on_player_2_toggle_pressed"]
 [connection signal="pressed" from="Exit" to="Exit" method="_on_pressed"]
 [connection signal="EmptyKey" from="ChangeButtons" to="CurrentHotkeys" method="_on_change_buttons_empty_key"]

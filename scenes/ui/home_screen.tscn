@@ -23,18 +23,15 @@ color = Color(0.96862745, 0.44313726, 0.49019608, 1)
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.163
-anchor_right = 0.5
-anchor_bottom = 0.163
-offset_left = -247.5
-offset_top = -42.000004
-offset_right = 247.5
-offset_bottom = 41.999992
+anchor_left = 0.28515625
+anchor_top = 0.09818518
+anchor_right = 0.71484375
+anchor_bottom = 0.22781481
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 61
 text = "[insert title here]"
+metadata/_edit_use_anchors_ = true
 
 [node name="LevelSelector" type="Button" parent="."]
 layout_mode = 1
@@ -63,6 +60,7 @@ text = "Settings
 metadata/_edit_use_anchors_ = true
 
 [node name="Tutorial" type="Button" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.36979166
@@ -76,3 +74,4 @@ text = "Tutorial
 
 [connection signal="pressed" from="LevelSelector" to="." method="_on_level_selector_pressed"]
 [connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Tutorial" to="." method="_on_tutorial_pressed"]

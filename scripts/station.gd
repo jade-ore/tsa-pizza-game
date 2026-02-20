@@ -1,32 +1,58 @@
 extends Node2D 
 
-@export var detection_area: DetectionComponent
+@export var detection_area1: DetectionComponent
+@export var detection_area2: DetectionComponent
 @export var interact_component: InteractComponent
 
-@export var selected = load("res://assets/img/objects/station_selected.png")
-@export var faced = load("res://assets/img/objects/station_faced.png")
-@export var normal = load("res://assets/img/objects/station.png")
+@export var sprite: SpriteFrames
 
 @export var extra_station_info = null
 
+enum {
+	NORMAL,
+	FACED,
+	SELECTED
+}
+var dir: int
+
 var selected_check: bool
-var player_facing: bool
+var player1_facing: bool
+var player2_facing: bool
+
+func _ready() -> void:
+	$AnimatedSprite2D.sprite_frames = sprite
+
+func animate():
+	$AnimatedSprite2D.frame = dir
 
 func _process(delta: float) -> void:
-	player_facing = detection_area.facing_me
-	if player_facing:
-		Global.selected_station = self
+	player1_facing = detection_area1.facing_me
+	if player1_facing:
+		Global.selected_station1 = self
 		if selected_check:
 			return
-		$Sprite2D.set_texture(faced)
+		dir = FACED
+		animate()
 		return
-	if Global.selected_station == self:
-		Global.selected_station = null
-	$Sprite2D.set_texture(normal)
+	if Global.selected_station1 == self:
+		Global.selected_station1 = null
+	player2_facing = detection_area2.facing_me
+	if player2_facing:
+		Global.selected_station2 = self
+		if selected_check:
+			return
+		dir = FACED
+		animate()
+		return
+	if Global.selected_station2 == self:
+		Global.selected_station2 = null
+	dir = NORMAL
+	animate()
 
 func interact(inventory):
 	selected_check = true
-	$Sprite2D.set_texture(selected)
+	dir = SELECTED
+	animate()
 	$TextureTimer.start()
 	interact_component.run(inventory)
 

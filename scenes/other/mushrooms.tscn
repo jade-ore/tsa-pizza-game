@@ -1,21 +1,43 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctnypau81ysbu"]
+[gd_scene load_steps=10 format=3 uid="uid://ctnypau81ysbu"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_asbik"]
-[ext_resource type="Texture2D" uid="uid://b0rtubs22rcvv" path="res://assets/img/objects/mushrooms/mushrooms_selected.png" id="2_df6r1"]
-[ext_resource type="Texture2D" uid="uid://56q580vut3l7" path="res://assets/img/objects/mushrooms/mushroom_faced.png" id="3_lj002"]
-[ext_resource type="Texture2D" uid="uid://c8xxnh817pb5j" path="res://assets/img/objects/mushrooms/mushrooms_normal.png" id="4_cu4vt"]
+[ext_resource type="Texture2D" uid="uid://bbp851gacrmib" path="res://assets/img/objects/mushrooms/Mushrooms.png" id="2_df6r1"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="5_cu4vt"]
 [ext_resource type="Script" uid="uid://dq1rk8afftoc4" path="res://scenes/other/mushrooms_inventory.gd" id="6_lj002"]
 [ext_resource type="Script" uid="uid://bljh0wulivmwh" path="res://scenes/other/mushromlabel.gd" id="7_cu4vt"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lj002"]
+atlas = ExtResource("2_df6r1")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu4vt"]
+atlas = ExtResource("2_df6r1")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iry8p"]
+atlas = ExtResource("2_df6r1")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gimef"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lj002")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu4vt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iry8p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Mushrooms" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_asbik")]
 interact_component = NodePath("StationInteract")
-selected = ExtResource("2_df6r1")
-faced = ExtResource("3_lj002")
-normal = ExtResource("4_cu4vt")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("4_cu4vt")
+sprite = SubResource("SpriteFrames_gimef")
 
 [node name="StationInteract" parent="." index="4" node_paths=PackedStringArray("inventory") instance=ExtResource("5_cu4vt")]
 inventory = NodePath("../MushroomsInventory")

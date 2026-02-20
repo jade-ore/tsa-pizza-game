@@ -1,11 +1,38 @@
-[gd_scene load_steps=9 format=3 uid="uid://cntat4hiw4api"]
+[gd_scene load_steps=11 format=3 uid="uid://cntat4hiw4api"]
 
-[ext_resource type="Texture2D" uid="uid://dheo6jcpr3olv" path="res://assets/img/objects/package/package_normal.png" id="1_hhxpv"]
+[ext_resource type="Texture2D" uid="uid://o2hhcaad403l" path="res://assets/img/objects/package/Package.png" id="1_hhxpv"]
 [ext_resource type="Script" uid="uid://blv74h4are2pi" path="res://package.gd" id="2_e4ybu"]
 [ext_resource type="Script" uid="uid://dr37gya2xm3cw" path="res://scenes/other/inventory_component.gd" id="3_hhxpv"]
 [ext_resource type="PackedScene" uid="uid://dwn7xucvt0ih2" path="res://scenes/other/station_components/detection_component.tscn" id="3_uegot"]
-[ext_resource type="Texture2D" uid="uid://pmpstimqxpwp" path="res://assets/img/objects/package/package_faced.png" id="3_uv8ps"]
-[ext_resource type="Texture2D" uid="uid://dv4g1w2c65n0c" path="res://assets/img/objects/package/package_selected.png" id="4_5vjvh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4ybu"]
+atlas = ExtResource("1_hhxpv")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uegot"]
+atlas = ExtResource("1_hhxpv")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv8ps"]
+atlas = ExtResource("1_hhxpv")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5vjvh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4ybu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uegot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv8ps")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vjvh"]
 size = Vector2(48, 48)
@@ -13,14 +40,12 @@ size = Vector2(48, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4h5ml"]
 size = Vector2(102, 98)
 
-[node name="Package" type="Sprite2D" node_paths=PackedStringArray("inventory", "detection_component")]
-texture = ExtResource("1_hhxpv")
+[node name="Package" type="AnimatedSprite2D" node_paths=PackedStringArray("inventory", "detection_component", "detection_component2")]
+sprite_frames = SubResource("SpriteFrames_5vjvh")
 script = ExtResource("2_e4ybu")
-faced = ExtResource("3_uv8ps")
-normal = ExtResource("1_hhxpv")
-selected = ExtResource("4_5vjvh")
 inventory = NodePath("InventoryComponent")
 detection_component = NodePath("detection_component")
+detection_component2 = NodePath("detection_component2")
 
 [node name="InventoryComponent" type="Node2D" parent="."]
 script = ExtResource("3_hhxpv")
@@ -36,17 +61,14 @@ shape = SubResource("RectangleShape2D_5vjvh")
 visible = false
 shape = SubResource("RectangleShape2D_4h5ml")
 
+[node name="detection_component2" parent="." instance=ExtResource("3_uegot")]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_component2"]
+visible = false
+shape = SubResource("RectangleShape2D_4h5ml")
+
 [node name="TextureTimer" type="Timer" parent="."]
 wait_time = 0.05
-
-[node name="Label" type="Label" parent="."]
-offset_left = -28.0
-offset_top = -24.0
-offset_right = 28.0
-offset_bottom = -1.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 14
-text = "Package
-"
 
 [connection signal="timeout" from="TextureTimer" to="." method="_on_texture_timer_timeout"]

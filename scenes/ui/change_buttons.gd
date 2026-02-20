@@ -7,7 +7,7 @@ var used_keys: Dictionary
 func _ready() -> void:
 	for button in self.get_children():
 		button.pressed.connect(update_key.bind(button.name))
-		used_keys[button.name] = InputMap.action_get_events(button.name)[0].as_text_physical_keycode()
+		used_keys[button.name + $"..".current_player] = InputMap.action_get_events(button.name)[0].as_text_physical_keycode()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and changing_action:
@@ -21,5 +21,5 @@ func _input(event: InputEvent) -> void:
 		changing_action = null
 
 func update_key(action):
-	InputMap.action_erase_events(action)
-	changing_action = action
+	InputMap.action_erase_events(action + $"..".current_player)
+	changing_action = action + $"..".current_player

@@ -1,21 +1,43 @@
-[gd_scene load_steps=8 format=3 uid="uid://dga2dsco83nod"]
+[gd_scene load_steps=10 format=3 uid="uid://dga2dsco83nod"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_0bchr"]
-[ext_resource type="Texture2D" uid="uid://dibhtk15kp7ki" path="res://assets/img/objects/pepporoni/pepperoni_selected.png" id="2_hnfue"]
-[ext_resource type="Texture2D" uid="uid://bam3c527cqkq5" path="res://assets/img/objects/pepporoni/pepperoni_faced.png" id="3_8ykgj"]
-[ext_resource type="Texture2D" uid="uid://curocwiy2o4b8" path="res://assets/img/objects/pepporoni/pepperoni_normal.png" id="4_ngo6q"]
+[ext_resource type="Texture2D" uid="uid://c6dm2dx6820h4" path="res://assets/img/objects/pepporoni/Pepperoni.png" id="2_hnfue"]
 [ext_resource type="PackedScene" uid="uid://dw0pl7auprbfm" path="res://scenes/other/station_components/station_interact.tscn" id="5_hnfue"]
 [ext_resource type="Script" uid="uid://dyw8bc4dkqutj" path="res://scenes/other/pepperoni_invenotry.gd" id="6_ngo6q"]
 [ext_resource type="Script" uid="uid://cu1m3fxrk2ccs" path="res://scenes/other/pepporoniinventory.gd" id="7_6wkp4"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ykgj"]
+atlas = ExtResource("2_hnfue")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngo6q"]
+atlas = ExtResource("2_hnfue")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wkp4"]
+atlas = ExtResource("2_hnfue")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cwof"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ykgj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngo6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wkp4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Pepperoni" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_0bchr")]
 interact_component = NodePath("StationInteract")
-selected = ExtResource("2_hnfue")
-faced = ExtResource("3_8ykgj")
-normal = ExtResource("4_ngo6q")
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("4_ngo6q")
+sprite = SubResource("SpriteFrames_5cwof")
 
 [node name="StationInteract" parent="." index="4" node_paths=PackedStringArray("inventory") instance=ExtResource("5_hnfue")]
 inventory = NodePath("../PepperoniInventory")

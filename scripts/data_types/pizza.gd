@@ -15,11 +15,11 @@ static func generate_pizza():
 	var TOPPINGS_LIST = {
 	Cheese: 100,
 	Sauce: 100,
-	Mushrooms: 30,
-	Onions: 5,
-	Olives: 10,
-	Pepperoni: 60,
-	Sausage: 40
+	Mushrooms: 0,
+	Onions: 0,
+	Olives: 0,
+	Pepperoni: 0,
+	Sausage: 0
 	}
 	var topping_array = []
 	for topping in TOPPINGS_LIST:
@@ -52,7 +52,6 @@ func get_toppings():
 
 func cook():
 	if cooked == cooked_state.COOKED or cooked == cooked_state.BURNT:
-		print("BURNT HAHA")
 		cooked = cooked_state.BURNT
 		return
 	cooked = cooked_state.COOKED
@@ -70,5 +69,5 @@ func compare_to(other: Pizza):
 	var percentage = 1 - (len(incorrect_toppings) / num_of_toppings)
 	if cooked != other.cooked: percentage -= 0.5
 	if other.size != size: percentage -= 0.5
-	var stars = remap(percentage, 0, 1, 0, 5)
+	var stars = remap(percentage, 0, 1, 0, 3)
 	return floor(stars)

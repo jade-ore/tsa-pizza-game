@@ -1,8 +1,11 @@
 extends Sprite2D
+class_name Customer
 signal CustomerLeft
 
 @export var station: Node2D = null
 @export var rating: int = 0
+@export var target_position: Vector2
+var speed = 1
 var order = Pizza.generate_pizza()
 var order_taken: bool
 var time_elapsed: int
@@ -16,8 +19,12 @@ func _ready() -> void:
 	while true:
 		if station != null: break
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "global_position", station.position - Vector2(50, 0), ceil(randf() * 4))
+	move_to_position()
 	tween.tween_callback(start)
+
+func move_to_position(_speed = 0):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "global_position", target_position, speed)
 
 func start():
 	$ElapsedTimeTimer.start()
@@ -26,7 +33,7 @@ func start():
 func interact(plr_inventory):
 	if not ready_to_talk: return
 	if not order_taken:
-		var order_time_stars = remap(order_max_wait_time - time_elapsed + patience, 0, order_max_wait_time + patience, 0, 5)
+		var order_time_stars = remap(order_max_wait_time - time_elapsed + patience, 0, order_max_wait_time + patience, 0, 1)
 		rating += round(order_time_stars)
 		order_taken = true
 		Order.emit(self, order)
@@ -36,15 +43,14 @@ func interact(plr_inventory):
 		return
 	var pizza = plr_inventory.subtract()
 	rating += order.compare_to(pizza)
-	var serve_time_stars = remap(serve_max_wait_time - time_elapsed + patience, 0, serve_max_wait_time + patience, 0, 5)
+	var serve_time_stars = remap(serve_max_wait_time - time_elapsed + patience, 0, serve_max_wait_time + patience, 0, 1)
 	rating += round(serve_time_stars)
 	queue_free()
 
 func _exit_tree() -> void:
 	rating = ( rating + abs(rating) ) / 2 # If rating is below 0, sets it to 0
-	rating /= 3 # Find the average rating
-	print("I give you %s stars" % rating)
 	CustomerLeft.emit(self)
+	print(rating)
 
 func one_second_passed() -> void:
 	time_elapsed += 1

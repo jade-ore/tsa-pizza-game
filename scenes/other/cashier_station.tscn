@@ -1,24 +1,42 @@
-[gd_scene load_steps=6 format=3 uid="uid://l8r5n4k2hdx6"]
+[gd_scene load_steps=8 format=3 uid="uid://l8r5n4k2hdx6"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_odd24"]
-[ext_resource type="Texture2D" uid="uid://cq2bt36ooddww" path="res://assets/img/objects/table/table_selected.png" id="2_l0ngo"]
-[ext_resource type="Texture2D" uid="uid://dm77u2u0jm7j7" path="res://assets/img/objects/table/table_faced.png" id="3_xg0ly"]
-[ext_resource type="Texture2D" uid="uid://bj7c02cjxdq5" path="res://assets/img/objects/table/table_normal.png" id="4_funkk"]
+[ext_resource type="Texture2D" uid="uid://dj7cn4cfcm0m7" path="res://assets/img/objects/General.png" id="2_ft41p"]
 [ext_resource type="Script" uid="uid://cgec5o22y5iqb" path="res://scenes/other/cashier_station.gd" id="5_q2l2v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb1uo"]
+atlas = ExtResource("2_ft41p")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2l2v"]
+atlas = ExtResource("2_ft41p")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi241"]
+atlas = ExtResource("2_ft41p")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ejks6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mb1uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2l2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi241")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="CashierStation" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_odd24")]
 rotation = 3.1415927
 interact_component = NodePath("reception_int")
-selected = ExtResource("2_l0ngo")
-faced = ExtResource("3_xg0ly")
-normal = ExtResource("4_funkk")
-
-[node name="Sprite2D" parent="." index="0"]
-rotation = 3.1415927
-texture = ExtResource("4_funkk")
-
-[node name="CollisionShape2D" parent="detection_component" index="0"]
-position = Vector2(-59, 1)
+sprite = SubResource("SpriteFrames_ejks6")
 
 [node name="reception_int" type="Node2D" parent="." index="4"]
 script = ExtResource("5_q2l2v")

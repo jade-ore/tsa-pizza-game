@@ -40,3 +40,13 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "1"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 21.0
+offset_right = 158.0
+offset_bottom = 74.0
+text = "Back"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

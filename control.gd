@@ -1,8 +1,8 @@
 extends TextureRect
 class_name IngredientMenuPart
 
-@export var selected: CompressedTexture2D
-@export var normal: CompressedTexture2D
+@export var selected: Texture2D
+@export var normal: Texture2D
 @export var topping: Topping
 
 func _ready() -> void:

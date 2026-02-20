@@ -1,11 +1,42 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0osgtkrnhtfh"]
+[gd_scene load_steps=9 format=3 uid="uid://b0osgtkrnhtfh"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_uqjbw"]
+[ext_resource type="Texture2D" uid="uid://dj7cn4cfcm0m7" path="res://assets/img/objects/General.png" id="2_hvg3h"]
 [ext_resource type="Script" uid="uid://dadakvekxr7bg" path="res://scripts/oven_interact.gd" id="2_tla0f"]
 [ext_resource type="PackedScene" uid="uid://b6317iibsvi8h" path="res://scenes/other/station_components/inventory_component.tscn" id="3_tla0f"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kbfe"]
+atlas = ExtResource("2_hvg3h")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8unbw"]
+atlas = ExtResource("2_hvg3h")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gccfr"]
+atlas = ExtResource("2_hvg3h")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p1w4p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4kbfe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8unbw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gccfr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Oven" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_uqjbw")]
 interact_component = NodePath("InteractComponent")
+sprite = SubResource("SpriteFrames_p1w4p")
 
 [node name="Control" type="Control" parent="." index="4"]
 layout_mode = 3

@@ -4,10 +4,9 @@ const customer_scene = preload("res://scenes/entities/customer.tscn")
 const truck_scene = preload("res://scenes/entities/truck.tscn")
 var cashier_stations_array: Array
 var cashier_stations: Dictionary
-var wait_time = $CustomerTimer.wait_time
-var list_of_ingredients = [Dough, Sauce, Cheese, Onions, Sausage, Pepperoni, Olives, Mushrooms]
+var list_of_ingredients = [Dough, Cheese, Sauce, Pepperoni]
 @export var order_currently_here: bool
-var rating: float = 5
+var rating: float = 0
 var customers_served: int
 var rating_sum: float
 var tickets = {}
@@ -16,10 +15,9 @@ var minutes: int
 var chance_of_customer: float
 var seconds_per_hour: int = 60
 var time_since_customer_came: int = 10
-var time_to_wait_until_next = 10
+var wait_time = 10
 
 func _ready() -> void:
-	print("\n\n\n\n\n\n\n\n")
 	$GameInfo/Time.set_time(hours, minutes)
 	Global.list_of_ingredients = list_of_ingredients
 	for station in $OrderStations.get_children():
@@ -36,13 +34,16 @@ func on_game_tick():
 	time_since_customer_came += 1
 	minutes += 1
 	hours = minutes / 60.0
-	chance_of_customer = ( -0.02353 * hours * hours ) + (0.21154 * hours)
+	# chance_of_customer = ( -0.02353 * hours * hours ) + (0.21154 * hours)
+	chance_of_customer = 0.6
 	$GameInfo/Time.set_time(int(hours), minutes)
+	if hours >= 8:
+		end_game()
 	if randf() < chance_of_customer:
-		if time_since_customer_came < time_to_wait_until_next:
+		if time_since_customer_came < wait_time:
 			return
 		time_since_customer_came = 0
-		time_to_wait_until_next = 10 + randi_range(-2, 5)
+		wait_time = 10 + randi_range(-2, 5)
 		customer_incoming()
 
 func customer_incoming():
@@ -52,12 +53,20 @@ func customer_incoming():
 		if len(customer_array) < len(cashier_stations[selected_station]):
 			selected_station = cashier_stations.find_key(customer_array)
 	customer.position = Vector2(-10, 324)
-	cashier_stations[selected_station].append(customer)
 	customer.station = selected_station
 	customer.CustomerLeft.connect(handle_customer_leaving)
-	selected_station.extra_station_info = customer
+	if len(cashier_stations[selected_station]) == 0:
+		selected_station.extra_station_info = customer
+	cashier_stations[selected_station].append(customer)
 	customer.Order.connect(add_ticket_to_screen)
 	add_child(customer)
+	move_all_customers(selected_station)
+
+func move_all_customers(station):
+	for index in range(len(cashier_stations[station])):
+		var customer = cashier_stations[station][index]
+		customer.target_position = station.position - (Vector2(50,0) * (index + 1))
+		customer.move_to_position()
 
 func handle_truck(item):
 	$GameInfo/Ordering.order(item)
@@ -70,16 +79,28 @@ func handle_truck(item):
 	await truck.tree_exited
 	$GameInfo/Ordering.reset()
 
+func find_customer_in_array(customer):
+	for array in cashier_stations.values():
+		if customer in array:
+			return array
+
 func handle_customer_leaving(customer):
 	var ticket = tickets.find_key(customer)
 	if not ticket:
 		return
 	ticket.remove_order()
+	var customer_array = find_customer_in_array(customer)
+	var station = cashier_stations.find_key(customer_array)
+	move_all_customers(station)
+	customer_array.erase(customer)
+	if len(customer_array) >= 1:
+		station.extra_station_info = customer_array[0]
+	move_all_customers(station)
+	if not Global.game_running:
+		return 
 	customers_served += 1
 	rating_sum += customer.rating
 	rating = rating_sum / customers_served
-	$GameInfo/Rating.set_rating(rating)
-	print(rating)
 
 func add_ticket_to_screen(customer, order):
 	var next_avaliable_ticket
@@ -89,3 +110,16 @@ func add_ticket_to_screen(customer, order):
 			break
 	tickets[next_avaliable_ticket] = customer
 	next_avaliable_ticket.set_order(order)
+
+func end_game():
+	$EndScreen/Rating.set_rating(rating)
+	Global.game_running = false
+	$MinuteTimer.stop()
+	for player in Global.players:
+		player.queue_free()
+	Global.players = []
+	for node in get_children():
+		if node is Customer:
+			node.queue_free()
+	$GameInfo.visible = false
+	$EndScreen.visible = true

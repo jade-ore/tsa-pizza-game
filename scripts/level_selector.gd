@@ -8,6 +8,10 @@ func _ready() -> void:
 func button_pressed(button: Button):
 	if int(button.name):
 		Global.level = int(button.name)
-		get_tree().change_scene_to_file("res://scenes/main_game.tscn")
+		var main_game = get_tree().change_scene_to_file("res://scenes/main_game.tscn")
 	else:
 		push_warning("Button name must be a number!")
+
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/ui/home_screen.tscn")

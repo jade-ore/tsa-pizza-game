@@ -1,10 +1,41 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqx2nwqhsa3np"]
+[gd_scene load_steps=8 format=3 uid="uid://bqx2nwqhsa3np"]
 
 [ext_resource type="PackedScene" uid="uid://b1l5tnxy2giem" path="res://scenes/other/station.tscn" id="1_7mohq"]
 [ext_resource type="Script" uid="uid://d26w0ivdc3kjy" path="res://trash_interact.gd" id="2_4fr8g"]
+[ext_resource type="Texture2D" uid="uid://dj7cn4cfcm0m7" path="res://assets/img/objects/General.png" id="2_yadjd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0r6wd"]
+atlas = ExtResource("2_yadjd")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqchd"]
+atlas = ExtResource("2_yadjd")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vif7g"]
+atlas = ExtResource("2_yadjd")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eljm5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0r6wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqchd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vif7g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Trash" node_paths=PackedStringArray("interact_component") instance=ExtResource("1_7mohq")]
 interact_component = NodePath("trash_interact")
+sprite = SubResource("SpriteFrames_eljm5")
 
 [node name="Label" type="Label" parent="." index="4"]
 offset_left = -23.0
