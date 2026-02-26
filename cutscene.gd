@@ -1,69 +1,70 @@
 extends Control
 class_name Cutscene
 @export var NextScene: PackedScene
+
 enum {
 	LEFT,
 	RIGHT,
-	END
+	END,
+	CHANGE_POSITION_MIDDLE,
+	CHANGE_POSITION_HOME
 }
 enum {
 	NAME,
 	TEXT
 }
 @export var Directions = {
-	"Jayden": LEFT,
-	"Jayden's swarm enemy": RIGHT,
+	"Tutorial": RIGHT,
 	"End": END,
-	"stuthi": LEFT,
-	"owen": RIGHT
+	"ChangePositionMiddle": CHANGE_POSITION_MIDDLE,
+	"ChangePositionHome": CHANGE_POSITION_HOME
 }
 @export var Sprites = {
-	"Jayden": preload("res://assets/img/sprites/girl_chef_still_2.png"),
-	"Jayden's swarm enemy": preload("res://assets/img/sprites/girl_chef_still_2.png"),
+	"Tutorial": null
 }
-@export var Dialogue = [
-	["Jayden", "Please give me money"],
-	["Jayden's swarm enemy", "I hate you"],
-	["stuthi", "I LOVE MUSHROOMS"],
-	["owen", "i hate mushrooms. i love cheese"],
-	["stuthi", "MUSHROOMS ARE BETTER"],
-	["owen", "Wrong. Cheese is better"],
-	["stuthi", "Mushrooms are 6.7 inches tall"],
-	["stuthi", "I also said the 6th and 7th message"],
-	["owen", "SIX SEVENENNENENENENENNENENENENENENN"]
-]
+@export var Dialogue = []
 var CurrentChatbox: ChatBox
-var current_index = 0
+var current_index = -1
+
+signal finished
 
 func _ready() -> void:
-	await get_tree().create_timer(2).timeout
-	CurrentChatbox = $PersonOnLeft
+	CurrentChatbox = null
 	$PersonOnLeft/Button.pressed.connect(next_scene)
 	$PersonOnRight/Button.pressed.connect(next_scene)
 
 func set_dialogue(_dialogue: Array):
 	Dialogue = _dialogue
 
-func show_dialogue():
+func _show_dialogue():
 	CurrentChatbox.visible = true
 	CurrentChatbox.set_sprite(Sprites[Dialogue[current_index][NAME]])
 	CurrentChatbox.change_name(Dialogue[current_index][NAME])
 	CurrentChatbox.set_dialogue(Dialogue[current_index][TEXT])
 
 func next_scene():
-	CurrentChatbox.visible = false
+	visible = true
+	if CurrentChatbox:
+		CurrentChatbox.visible = false
 	current_index += 1
 	var dir = Directions[Dialogue[current_index][NAME]]
-	CurrentChatbox = null
 	match dir:
 		LEFT:
 			CurrentChatbox = $PersonOnLeft
-			show_dialogue()
+			_show_dialogue()
 		RIGHT:
 			CurrentChatbox = $PersonOnRight
-			show_dialogue()
+			_show_dialogue()
 		END:
+			finished.emit()
+			current_index = -1
 			if NextScene:
 				get_tree().change_scene_to_packed(NextScene)
 			else:
 				visible = false
+		CHANGE_POSITION_MIDDLE:
+			position.y = -300
+			next_scene()
+		CHANGE_POSITION_HOME:
+			position.y = 0
+			next_scene()

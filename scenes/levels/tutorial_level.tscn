@@ -1,0 +1,190 @@
+[gd_scene load_steps=16 format=3 uid="uid://g1hcah5y56cp"]
+
+[ext_resource type="PackedScene" uid="uid://b1nd6w70ktdsu" path="res://scenes/levels/000_base_level.tscn" id="1_i4g7q"]
+[ext_resource type="Script" uid="uid://cmpe0clupnhm3" path="res://scenes/levels/tutorial_level.gd" id="2_4xxee"]
+[ext_resource type="PackedScene" uid="uid://c67cxb4ydd55o" path="res://scenes/ui/cutscene.tscn" id="2_43dxg"]
+[ext_resource type="Script" uid="uid://bjblru86bfrj5" path="res://scripts/data_types/dough_data_type.gd" id="3_jcy27"]
+[ext_resource type="Script" uid="uid://c6uolq4y8x1au" path="res://scripts/data_types/sauce.gd" id="4_xl0d0"]
+[ext_resource type="Script" uid="uid://b30rpqkpckryn" path="res://scripts/data_types/cheese.gd" id="5_8r123"]
+[ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/other/dough.tscn" id="7_d0g56"]
+[ext_resource type="PackedScene" uid="uid://dudf5dekhlqmg" path="res://scenes/other/cheese.tscn" id="8_gs1om"]
+[ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/other/sauce.tscn" id="9_i8m3h"]
+[ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/other/cashier_station.tscn" id="10_ey2yj"]
+[ext_resource type="PackedScene" uid="uid://cd0fsm4oc8n8r" path="res://scenes/other/empty.tscn" id="10_gs1om"]
+[ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/other/order_station.tscn" id="11_2iuaq"]
+[ext_resource type="PackedScene" uid="uid://b0osgtkrnhtfh" path="res://scenes/other/oven.tscn" id="11_i8m3h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g70hs"]
+size = Vector2(1162, 137.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43dxg"]
+size = Vector2(110, 734)
+
+[node name="TutorialLevel" node_paths=PackedStringArray("game_info", "stations", "cashier_stations_node", "order_stations", "end_screen", "minute_timer", "cutscene") instance=ExtResource("1_i4g7q")]
+script = ExtResource("2_4xxee")
+game_info = NodePath("GameInfo")
+stations = NodePath("Stations")
+cashier_stations_node = NodePath("CashierStations")
+order_stations = NodePath("OrderStations")
+end_screen = NodePath("EndScreen")
+minute_timer = NodePath("MinuteTimer")
+list_of_ingredients = Array[Resource]([ExtResource("3_jcy27"), ExtResource("4_xl0d0"), ExtResource("5_8r123")])
+cutscene = NodePath("Dialogue/Text")
+
+[node name="Map" parent="." index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Border" parent="." index="1"]
+collision_mask = 7
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Border" index="0"]
+position = Vector2(574, 537)
+shape = SubResource("RectangleShape2D_g70hs")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Border" index="1"]
+position = Vector2(544, 76)
+shape = SubResource("RectangleShape2D_g70hs")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Border" index="2"]
+position = Vector2(1196, 310)
+shape = SubResource("RectangleShape2D_43dxg")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Border" index="3"]
+position = Vector2(-45, 281)
+shape = SubResource("RectangleShape2D_43dxg")
+metadata/_edit_lock_ = true
+
+[node name="Stations" parent="." index="4"]
+metadata/_edit_lock_ = true
+
+[node name="Dough" parent="Stations" index="0" instance=ExtResource("7_d0g56")]
+position = Vector2(615, 184)
+rotation = -1.5707964
+
+[node name="Cheese" parent="Stations" index="1" instance=ExtResource("8_gs1om")]
+position = Vector2(727, 184)
+rotation = -1.5707964
+
+[node name="Sauce" parent="Stations" index="2" instance=ExtResource("9_i8m3h")]
+position = Vector2(671, 184)
+rotation = -1.5707964
+
+[node name="Oven" parent="Stations" index="3" instance=ExtResource("11_i8m3h")]
+position = Vector2(787, 424)
+rotation = 1.5707964
+
+[node name="Empty" parent="Stations" index="4" instance=ExtResource("10_gs1om")]
+position = Vector2(783, 184)
+rotation = -1.5707964
+
+[node name="Empty3" parent="Stations" index="5" instance=ExtResource("10_gs1om")]
+position = Vector2(675, 424)
+rotation = 1.5707964
+
+[node name="Empty4" parent="Stations" index="6" instance=ExtResource("10_gs1om")]
+position = Vector2(731, 424)
+rotation = 1.5707964
+
+[node name="Empty2" parent="Stations" index="7" instance=ExtResource("10_gs1om")]
+position = Vector2(839, 184)
+rotation = -1.5707964
+
+[node name="CashierStations" parent="." index="5"]
+metadata/_edit_lock_ = true
+
+[node name="CashierStation" parent="CashierStations" index="0" instance=ExtResource("10_ey2yj")]
+position = Vector2(367, 306)
+
+[node name="OrderStations" parent="." index="6"]
+metadata/_edit_lock_ = true
+
+[node name="OrderStation" parent="OrderStations" index="0" instance=ExtResource("11_2iuaq")]
+position = Vector2(619, 424)
+rotation = 1.5707964
+
+[node name="Background" parent="GameInfo" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="TicketsContainer" parent="GameInfo" index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Ticket" parent="GameInfo/TicketsContainer" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Title" parent="GameInfo/TicketsContainer/Ticket" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Order" parent="GameInfo/TicketsContainer/Ticket" index="1"]
+layout_mode = 1
+anchors_preset = -1
+metadata/_edit_lock_ = true
+
+[node name="Ticket2" parent="GameInfo/TicketsContainer" index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Title" parent="GameInfo/TicketsContainer/Ticket2" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Order" parent="GameInfo/TicketsContainer/Ticket2" index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Ticket3" parent="GameInfo/TicketsContainer" index="2"]
+metadata/_edit_lock_ = true
+
+[node name="Title" parent="GameInfo/TicketsContainer/Ticket3" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Order" parent="GameInfo/TicketsContainer/Ticket3" index="1"]
+layout_mode = 1
+anchors_preset = -1
+metadata/_edit_lock_ = true
+
+[node name="Inventory" parent="GameInfo" index="2"]
+metadata/_edit_lock_ = true
+
+[node name="Player1" parent="GameInfo/Inventory" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Title" parent="GameInfo/Inventory/Player1" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Inventory" parent="GameInfo/Inventory/Player1" index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Player2" parent="GameInfo/Inventory" index="1"]
+metadata/_edit_lock_ = true
+
+[node name="Label2" parent="GameInfo/Inventory/Player2" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Ordering" parent="GameInfo" index="3"]
+metadata/_edit_lock_ = true
+
+[node name="BG" parent="GameInfo/Ordering" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Order" parent="GameInfo/Ordering/BG" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="AmountOfMoney" parent="GameInfo" index="4"]
+metadata/_edit_lock_ = true
+
+[node name="Label" parent="GameInfo/AmountOfMoney" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="Time" parent="GameInfo" index="5"]
+metadata/_edit_lock_ = true
+
+[node name="Label" parent="GameInfo/Time" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="EndScreen" parent="." index="9"]
+metadata/_edit_lock_ = true
+
+[node name="Dialogue" type="CanvasLayer" parent="." index="10"]
+
+[node name="Text" parent="Dialogue" index="0" instance=ExtResource("2_43dxg")]

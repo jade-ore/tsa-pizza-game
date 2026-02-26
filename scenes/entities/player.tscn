@@ -68,6 +68,7 @@ height = 180.0
 y_sort_enabled = true
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_08t41")
 inventory = NodePath("InventoryComponent")
 metadata/_edit_vertical_guides_ = [-23.0, -16.0, -12.0]

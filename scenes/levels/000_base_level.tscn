@@ -1,13 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1nd6w70ktdsu"]
+[gd_scene load_steps=19 format=3 uid="uid://b1nd6w70ktdsu"]
 
 [ext_resource type="Texture2D" uid="uid://rcpg6hmwv71r" path="res://assets/img/background/map.png" id="1_8wnxx"]
 [ext_resource type="Script" uid="uid://b13rud8e2vewq" path="res://scripts/camera_2d.gd" id="2_gacy2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
-size = Vector2(1392.0313, 71.125)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g70hs"]
-size = Vector2(1162, 137.5)
+[ext_resource type="Script" uid="uid://bu82dtf3qkxib" path="res://scenes/levels/stations.gd" id="3_560wp"]
+[ext_resource type="Script" uid="uid://bejbgeecbebe" path="res://scenes/levels/minute_timer.gd" id="3_obrav"]
+[ext_resource type="Script" uid="uid://dm4w1pcqwkeog" path="res://scenes/levels/cashier_stations.gd" id="4_acybl"]
+[ext_resource type="Script" uid="uid://dhc0aq3vk3468" path="res://scenes/levels/game_info.gd" id="4_yx7gj"]
+[ext_resource type="Script" uid="uid://dq3hpo6oc7yf7" path="res://scenes/levels/tickets_container.gd" id="5_aag55"]
+[ext_resource type="Script" uid="uid://c4fbi3lq8o5er" path="res://scenes/levels/order_stations.gd" id="5_ab8o7"]
+[ext_resource type="Script" uid="uid://cpacdojsratlt" path="res://scenes/levels/ticket.gd" id="6_560wp"]
+[ext_resource type="Script" uid="uid://bsassor0f7lau" path="res://scenes/levels/inventory.gd" id="7_acybl"]
+[ext_resource type="Script" uid="uid://cybunr56w12rm" path="res://scenes/levels/inventory_label.gd" id="8_ab8o7"]
+[ext_resource type="Script" uid="uid://bcdwn8ifhnu4x" path="res://scenes/levels/inventory_2.gd" id="9_e42mt"]
+[ext_resource type="Script" uid="uid://di1ex1sqqsrm1" path="res://scenes/levels/ordering.gd" id="10_1ga7y"]
+[ext_resource type="Script" uid="uid://f0pxa0oa0gv8" path="res://scenes/levels/amount_of_money.gd" id="11_241kj"]
+[ext_resource type="Script" uid="uid://bneot0rnisngv" path="res://scenes/levels/time.gd" id="12_ucqb0"]
+[ext_resource type="Script" uid="uid://b2p68uy56xtur" path="res://scenes/levels/end_screen.gd" id="13_o4u3v"]
+[ext_resource type="Script" uid="uid://d3p53nvejyl6b" path="res://scenes/levels/rating.gd" id="14_epd3t"]
+[ext_resource type="Texture2D" uid="uid://cn885onptrigd" path="res://assets/img/sprites/stars (1).png" id="15_gjiv7"]
 
 [node name="BaseLevel" type="Node2D"]
 
@@ -17,19 +27,347 @@ texture = ExtResource("1_8wnxx")
 
 [node name="Border" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Border"]
-shape = SubResource("RectangleShape2D_uk53i")
-
 [node name="MapCollisions" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCollisions"]
-shape = SubResource("RectangleShape2D_g70hs")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_gacy2")
 
 [node name="Stations" type="Node2D" parent="."]
+script = ExtResource("3_560wp")
 
 [node name="CashierStations" type="Node2D" parent="."]
+script = ExtResource("4_acybl")
 
 [node name="OrderStations" type="Node2D" parent="."]
+script = ExtResource("5_ab8o7")
+
+[node name="MinuteTimer" type="Timer" parent="."]
+autostart = true
+script = ExtResource("3_obrav")
+
+[node name="GameInfo" type="CanvasLayer" parent="." node_paths=PackedStringArray("time", "inventory", "ordering", "amount_of_money", "tickets")]
+script = ExtResource("4_yx7gj")
+time = NodePath("Time")
+inventory = NodePath("Inventory")
+ordering = NodePath("Ordering")
+amount_of_money = NodePath("AmountOfMoney")
+tickets = NodePath("TicketsContainer")
+
+[node name="Background" type="ColorRect" parent="GameInfo"]
+custom_minimum_size = Vector2(1152, 0)
+anchors_preset = -1
+anchor_top = 0.72839504
+anchor_right = 1.0052084
+anchor_bottom = 1.0046295
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="TicketsContainer" type="Control" parent="GameInfo"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 3
+anchor_left = 0.1736111
+anchor_top = 0.75308645
+anchor_right = 0.5989583
+anchor_bottom = 1.0
+offset_top = -3.0517578e-05
+script = ExtResource("5_aag55")
+metadata/_edit_use_anchors_ = true
+
+[node name="Ticket" type="ColorRect" parent="GameInfo/TicketsContainer" node_paths=PackedStringArray("order_label")]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 160.0
+script = ExtResource("6_560wp")
+order_label = NodePath("Order")
+
+[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket"]
+layout_mode = 0
+offset_right = 149.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Customer Order"
+
+[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket"]
+layout_mode = 0
+anchor_left = 0.06
+anchor_top = 0.15
+anchor_right = 0.94
+anchor_bottom = 0.9375
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Ticket2" type="ColorRect" parent="GameInfo/TicketsContainer" node_paths=PackedStringArray("order_label")]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 0
+offset_left = 170.0
+offset_right = 320.0
+offset_bottom = 160.0
+script = ExtResource("6_560wp")
+order_label = NodePath("Order")
+
+[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket2"]
+layout_mode = 0
+offset_right = 149.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Customer Order"
+
+[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket2"]
+layout_mode = 0
+anchor_left = 0.06
+anchor_top = 0.15
+anchor_right = 0.94
+anchor_bottom = 0.9375
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Ticket3" type="ColorRect" parent="GameInfo/TicketsContainer" node_paths=PackedStringArray("order_label")]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 0
+offset_left = 340.0
+offset_right = 490.0
+offset_bottom = 160.0
+script = ExtResource("6_560wp")
+order_label = NodePath("Order")
+
+[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket3"]
+layout_mode = 0
+offset_right = 149.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Customer Order"
+
+[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket3"]
+layout_mode = 0
+anchor_left = 0.06
+anchor_top = 0.15
+anchor_right = 0.94
+anchor_bottom = 0.9375
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Inventory" type="Control" parent="GameInfo"]
+layout_mode = 3
+anchor_right = 0.034722224
+anchor_bottom = 0.061728396
+script = ExtResource("7_acybl")
+metadata/_edit_use_anchors_ = true
+
+[node name="Player1" type="ColorRect" parent="GameInfo/Inventory"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 12.0
+anchor_right = 4.4
+anchor_bottom = 16.2
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="GameInfo/Inventory/Player1"]
+layout_mode = 0
+anchor_right = 0.83928573
+anchor_bottom = 0.13690476
+offset_right = -101.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Player 1 Inventory"
+metadata/_edit_use_anchors_ = true
+
+[node name="Inventory" type="Label" parent="GameInfo/Inventory/Player1"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 158.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+script = ExtResource("8_ab8o7")
+
+[node name="Player2" type="ColorRect" parent="GameInfo/Inventory"]
+layout_mode = 0
+anchor_left = 24.4
+anchor_top = 12.0
+anchor_right = 28.6
+anchor_bottom = 16.2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="GameInfo/Inventory/Player2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.83928573
+anchor_bottom = 0.13690476
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Player 2 Inventory"
+metadata/_edit_use_anchors_ = true
+
+[node name="Inventory2" type="Label" parent="GameInfo/Inventory/Player2"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 31.0
+offset_right = 158.0
+offset_bottom = 157.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+autowrap_mode = 2
+script = ExtResource("9_e42mt")
+
+[node name="Ordering" type="Control" parent="GameInfo"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_1ga7y")
+
+[node name="BG" type="ColorRect" parent="GameInfo/Ordering"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 17.625
+anchor_top = 13.35
+anchor_right = 23.5
+anchor_bottom = 15.55
+metadata/_edit_use_anchors_ = true
+
+[node name="Order" type="Label" parent="GameInfo/Ordering/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 6.0
+offset_right = -13.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Currently Ordering: Nothing!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AmountOfMoney" type="ColorRect" parent="GameInfo"]
+visible = false
+anchors_preset = -1
+anchor_left = 18.0
+anchor_top = 12.2
+anchor_right = 18.090279
+anchor_bottom = 12.274075
+offset_left = -20031.0
+offset_top = -7425.6
+offset_right = -20031.0
+offset_bottom = -7425.6
+script = ExtResource("11_241kj")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="GameInfo/AmountOfMoney"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.038461544
+anchor_top = 0.16666667
+anchor_right = 0.97115386
+anchor_bottom = 0.6458333
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "9999 money"
+metadata/_edit_use_anchors_ = true
+
+[node name="Time" type="ColorRect" parent="GameInfo"]
+anchors_preset = -1
+anchor_left = 0.7083333
+anchor_top = 0.7407407
+anchor_right = 0.8159722
+anchor_bottom = 0.8148148
+offset_top = 3.0517578e-05
+script = ExtResource("12_ucqb0")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="GameInfo/Time"]
+layout_mode = 0
+anchor_left = 0.06451613
+anchor_top = 0.16666667
+anchor_right = 0.9354839
+anchor_bottom = 0.8333333
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="EndScreen" type="Control" parent="." node_paths=PackedStringArray("rating")]
+visible = false
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_o4u3v")
+rating = NodePath("Rating")
+metadata/_edit_use_anchors_ = true
+
+[node name="BG" type="ColorRect" parent="EndScreen"]
+layout_mode = 0
+offset_right = 1216.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.73333335)
+
+[node name="EndCard" type="ColorRect" parent="EndScreen"]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 88.0
+offset_right = 784.0
+offset_bottom = 616.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="EndScreen/EndCard"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 368.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "END OF GAMEEEE"
+
+[node name="Button" type="Button" parent="EndScreen/EndCard"]
+layout_mode = 0
+anchor_left = 0.06122449
+anchor_top = 0.6363636
+anchor_right = 0.93877554
+anchor_bottom = 0.92424244
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+theme_override_colors/icon_hover_color = Color(0.13682577, 0.13682574, 0.13682571, 1)
+text = "RETURN TO HOMESCREEN"
+metadata/_edit_use_anchors_ = true
+
+[node name="Rating" type="Control" parent="EndScreen"]
+anchors_preset = 0
+offset_left = 496.0
+offset_top = 184.0
+offset_right = 536.0
+offset_bottom = 224.0
+script = ExtResource("14_epd3t")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="EndScreen/Rating"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.175
+anchor_top = 1.0
+anchor_right = 6.325
+anchor_bottom = 2.5
+max_value = 5.0
+step = 0.1
+value = 5.0
+texture_progress = ExtResource("15_gjiv7")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="EndScreen/Rating"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.75
+anchor_top = -0.775
+anchor_right = 5.975
+anchor_bottom = 0.425
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Average rating: "
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="EndScreen/EndCard/Button" to="EndScreen" method="_on_button_pressed"]

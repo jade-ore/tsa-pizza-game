@@ -1,11 +1,21 @@
 extends Node2D
+class_name GameLevel
 
+@export var game_info: GameInfo
+@export var stations: Stations
+@export var cashier_stations_node: CashierStations
+@export var order_stations: OrderStations
+@export var end_screen: EndScreen
+@export var minute_timer: MinuteTimer
+@export var list_of_ingredients: Array[Resource]
+@export var cutscene: Cutscene
+
+
+var order_currently_here: bool
 const customer_scene = preload("res://scenes/entities/customer.tscn")
 const truck_scene = preload("res://scenes/entities/truck.tscn")
 var cashier_stations_array: Array
 var cashier_stations: Dictionary
-var list_of_ingredients = [Dough, Cheese, Sauce, Pepperoni]
-@export var order_currently_here: bool
 var rating: float = 0
 var customers_served: int
 var rating_sum: float
@@ -13,21 +23,30 @@ var tickets = {}
 var hours: float
 var minutes: int
 var chance_of_customer: float
-var seconds_per_hour: int = 60
+const seconds_per_hour: int = 60
 var time_since_customer_came: int = 10
 var wait_time = 10
 
 func _ready() -> void:
-	$GameInfo/Time.set_time(hours, minutes)
+	setup_game()
+
+func setup_game():
+	if not game_info or not stations or not cashier_stations_node \
+	or not order_stations or not end_screen or not minute_timer or not list_of_ingredients:
+		push_warning("Missing components on ", self, " Please check Inspector")
+		queue_free()
+		return
+	game_info.time.set_time(int(hours), minutes)
 	Global.list_of_ingredients = list_of_ingredients
-	for station in $OrderStations.get_children():
+	for station in order_stations.get_children():
 		station.interact_component.OrderFood.connect(handle_truck)
-	for ticket in $GameInfo/TicketsContainer.get_children():
+	for ticket in game_info.tickets.get_children():
 		ticket.visible = false
 		tickets[ticket] = null
-	for station in $CashierStations.get_children():
+	for station in cashier_stations_node.get_children():
 		cashier_stations_array.append(station)
 		cashier_stations[station] = []
+	minute_timer.timeout.connect(on_game_tick)
 
 func on_game_tick():
 	# -0.02353x^{2} + 0.21154x 
@@ -36,7 +55,7 @@ func on_game_tick():
 	hours = minutes / 60.0
 	# chance_of_customer = ( -0.02353 * hours * hours ) + (0.21154 * hours)
 	chance_of_customer = 0.6
-	$GameInfo/Time.set_time(int(hours), minutes)
+	game_info.time.set_time(int(hours), minutes)
 	if hours >= 8:
 		end_game()
 	if randf() < chance_of_customer:
@@ -69,7 +88,7 @@ func move_all_customers(station):
 		customer.move_to_position()
 
 func handle_truck(item):
-	$GameInfo/Ordering.order(item)
+	game_info.ordering.order(item)
 	if order_currently_here: return
 	order_currently_here = true
 	var truck = truck_scene.instantiate()
@@ -77,7 +96,7 @@ func handle_truck(item):
 	
 	add_child(truck)
 	await truck.tree_exited
-	$GameInfo/Ordering.reset()
+	game_info.ordering.reset()
 
 func find_customer_in_array(customer):
 	for array in cashier_stations.values():
@@ -112,14 +131,14 @@ func add_ticket_to_screen(customer, order):
 	next_avaliable_ticket.set_order(order)
 
 func end_game():
-	$EndScreen/Rating.set_rating(rating)
+	end_screen.rating.set_rating(rating)
 	Global.game_running = false
-	$MinuteTimer.stop()
+	minute_timer.stop()
 	for player in Global.players:
 		player.queue_free()
 	Global.players = []
 	for node in get_children():
 		if node is Customer:
 			node.queue_free()
-	$GameInfo.visible = false
-	$EndScreen.visible = true
+	game_info.visible = false
+	end_screen.visible = true

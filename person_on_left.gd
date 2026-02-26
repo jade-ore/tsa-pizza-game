@@ -11,4 +11,9 @@ func set_dialogue(_text: String):
 	TextBox.label.text = _text
 
 func set_sprite(texture):
-	$TextureRect.texture = texture
+	if texture:
+		$TextureRect.visible = true
+		$TextureRect.texture = texture
+		return
+	$TextureRect.visible = false
+	

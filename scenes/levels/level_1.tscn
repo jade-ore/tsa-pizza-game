@@ -1,24 +1,18 @@
-[gd_scene load_steps=22 format=3 uid="uid://8irfm5xdcfn4"]
+[gd_scene load_steps=16 format=3 uid="uid://8irfm5xdcfn4"]
 
 [ext_resource type="PackedScene" uid="uid://b1nd6w70ktdsu" path="res://scenes/levels/000_base_level.tscn" id="1_x6ivy"]
 [ext_resource type="PackedScene" uid="uid://b52qdqtawgah8" path="res://scenes/other/dough.tscn" id="2_6iamk"]
 [ext_resource type="Script" uid="uid://bq6gwn2an4q2v" path="res://scenes/levels/level_1.gd" id="2_wtwp4"]
+[ext_resource type="Script" uid="uid://bjblru86bfrj5" path="res://scripts/data_types/dough_data_type.gd" id="3_excbq"]
 [ext_resource type="PackedScene" uid="uid://dudf5dekhlqmg" path="res://scenes/other/cheese.tscn" id="3_nsrm0"]
+[ext_resource type="Script" uid="uid://c6uolq4y8x1au" path="res://scripts/data_types/sauce.gd" id="4_dnkej"]
 [ext_resource type="PackedScene" uid="uid://cd0fsm4oc8n8r" path="res://scenes/other/empty.tscn" id="4_x42e6"]
+[ext_resource type="Script" uid="uid://b30rpqkpckryn" path="res://scripts/data_types/cheese.gd" id="5_mm8aj"]
 [ext_resource type="PackedScene" uid="uid://b0osgtkrnhtfh" path="res://scenes/other/oven.tscn" id="7_dnkej"]
 [ext_resource type="PackedScene" uid="uid://barvgil0sp5ec" path="res://scenes/other/sauce.tscn" id="10_qxy0u"]
 [ext_resource type="PackedScene" uid="uid://l8r5n4k2hdx6" path="res://scenes/other/cashier_station.tscn" id="14_mm8aj"]
 [ext_resource type="PackedScene" uid="uid://b4dcubfdgpw8w" path="res://scenes/other/order_station.tscn" id="15_iwr0g"]
 [ext_resource type="PackedScene" uid="uid://bqx2nwqhsa3np" path="res://scenes/other/trash.tscn" id="16_bahl2"]
-[ext_resource type="Script" uid="uid://bejbgeecbebe" path="res://scenes/levels/minute_timer.gd" id="18_ndtll"]
-[ext_resource type="Script" uid="uid://cpacdojsratlt" path="res://scenes/levels/ticket.gd" id="18_v6ha0"]
-[ext_resource type="Script" uid="uid://cybunr56w12rm" path="res://scenes/levels/inventory_label.gd" id="19_v6ha0"]
-[ext_resource type="Script" uid="uid://di1ex1sqqsrm1" path="res://scenes/levels/ordering.gd" id="20_gmpev"]
-[ext_resource type="Script" uid="uid://bneot0rnisngv" path="res://scenes/levels/time.gd" id="21_mkypq"]
-[ext_resource type="Script" uid="uid://bcdwn8ifhnu4x" path="res://scenes/levels/inventory_2.gd" id="21_o7j4k"]
-[ext_resource type="Script" uid="uid://d3p53nvejyl6b" path="res://scenes/levels/rating.gd" id="23_mqh5v"]
-[ext_resource type="Texture2D" uid="uid://cn885onptrigd" path="res://assets/img/sprites/stars (1).png" id="24_7o3do"]
-[ext_resource type="Script" uid="uid://b2p68uy56xtur" path="res://scenes/levels/end_screen.gd" id="25_7o3do"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uk53i"]
 size = Vector2(1392.0313, 71.125)
@@ -26,24 +20,32 @@ size = Vector2(1392.0313, 71.125)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x6ivy"]
 size = Vector2(118, 1027)
 
-[node name="Level1" instance=ExtResource("1_x6ivy")]
+[node name="Level1" node_paths=PackedStringArray("game_info", "stations", "cashier_stations_node", "order_stations", "end_screen", "minute_timer") instance=ExtResource("1_x6ivy")]
 script = ExtResource("2_wtwp4")
+game_info = NodePath("GameInfo")
+stations = NodePath("Stations")
+cashier_stations_node = NodePath("CashierStations")
+order_stations = NodePath("OrderStations")
+end_screen = NodePath("EndScreen")
+minute_timer = NodePath("MinuteTimer")
+list_of_ingredients = Array[Resource]([ExtResource("3_excbq"), ExtResource("4_dnkej"), ExtResource("5_mm8aj")])
 
 [node name="Map" parent="." index="0"]
 position = Vector2(598, 352)
 metadata/_edit_lock_ = true
 
 [node name="Border" parent="." index="1"]
+collision_mask = 7
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D" parent="Border" index="0"]
-position = Vector2(600, -9)
-metadata/_edit_lock_ = true
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Border" index="1"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Border" index="0"]
 position = Vector2(608, 512)
 shape = SubResource("RectangleShape2D_uk53i")
 metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Border" index="1"]
+position = Vector2(608, 136)
+shape = SubResource("RectangleShape2D_uk53i")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Border" index="2"]
 position = Vector2(-41, 307)
@@ -54,9 +56,6 @@ metadata/_edit_lock_ = true
 position = Vector2(1230, 319)
 shape = SubResource("RectangleShape2D_x6ivy")
 metadata/_edit_lock_ = true
-
-[node name="CollisionShape2D" parent="MapCollisions" index="0"]
-position = Vector2(603, 99.25)
 
 [node name="Camera2D" parent="." index="3"]
 position = Vector2(-171, -188)
@@ -123,325 +122,3 @@ rotation = -3.1415925
 z_index = 1
 position = Vector2(624, 440)
 rotation = 1.5707964
-
-[node name="MinuteTimer" type="Timer" parent="." index="7"]
-autostart = true
-script = ExtResource("18_ndtll")
-
-[node name="GameInfo" type="CanvasLayer" parent="." index="8"]
-
-[node name="Background" type="ColorRect" parent="GameInfo" index="0"]
-custom_minimum_size = Vector2(1152, 0)
-anchors_preset = -1
-anchor_top = 0.72839504
-anchor_right = 1.0052084
-anchor_bottom = 1.0046295
-color = Color(0, 0, 0, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="TicketsContainer" type="Control" parent="GameInfo" index="1"]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 3
-anchor_left = 0.1736111
-anchor_top = 0.75308645
-anchor_right = 0.5989583
-anchor_bottom = 1.0
-offset_top = -3.0517578e-05
-metadata/_edit_use_anchors_ = true
-
-[node name="Ticket" type="ColorRect" parent="GameInfo/TicketsContainer" index="0" node_paths=PackedStringArray("order_label")]
-custom_minimum_size = Vector2(150, 30)
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 160.0
-script = ExtResource("18_v6ha0")
-order_label = NodePath("Order")
-
-[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket" index="0"]
-layout_mode = 0
-offset_right = 149.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Customer Order"
-
-[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket" index="1"]
-layout_mode = 0
-anchor_left = 0.06
-anchor_top = 0.15
-anchor_right = 0.94
-anchor_bottom = 0.9375
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="Ticket2" type="ColorRect" parent="GameInfo/TicketsContainer" index="1" node_paths=PackedStringArray("order_label")]
-custom_minimum_size = Vector2(150, 30)
-layout_mode = 0
-offset_left = 170.0
-offset_right = 320.0
-offset_bottom = 160.0
-script = ExtResource("18_v6ha0")
-order_label = NodePath("Order")
-
-[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket2" index="0"]
-layout_mode = 0
-offset_right = 149.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Customer Order"
-
-[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket2" index="1"]
-layout_mode = 0
-anchor_left = 0.06
-anchor_top = 0.15
-anchor_right = 0.94
-anchor_bottom = 0.9375
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="Ticket3" type="ColorRect" parent="GameInfo/TicketsContainer" index="2" node_paths=PackedStringArray("order_label")]
-custom_minimum_size = Vector2(150, 30)
-layout_mode = 0
-offset_left = 340.0
-offset_right = 490.0
-offset_bottom = 160.0
-script = ExtResource("18_v6ha0")
-order_label = NodePath("Order")
-
-[node name="Title" type="Label" parent="GameInfo/TicketsContainer/Ticket3" index="0"]
-layout_mode = 0
-offset_right = 149.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Customer Order"
-
-[node name="Order" type="Label" parent="GameInfo/TicketsContainer/Ticket3" index="1"]
-layout_mode = 0
-anchor_left = 0.06
-anchor_top = 0.15
-anchor_right = 0.94
-anchor_bottom = 0.9375
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="Inventory" type="Control" parent="GameInfo" index="2"]
-layout_mode = 3
-anchor_right = 0.034722224
-anchor_bottom = 0.061728396
-metadata/_edit_use_anchors_ = true
-
-[node name="Player1" type="ColorRect" parent="GameInfo/Inventory" index="0"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.2
-anchor_top = 12.0
-anchor_right = 4.4
-anchor_bottom = 16.2
-metadata/_edit_use_anchors_ = true
-
-[node name="Title" type="Label" parent="GameInfo/Inventory/Player1" index="0"]
-layout_mode = 0
-anchor_right = 0.83928573
-anchor_bottom = 0.13690476
-offset_right = -101.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Player 1 Inventory"
-metadata/_edit_use_anchors_ = true
-
-[node name="Inventory" type="Label" parent="GameInfo/Inventory/Player1" index="1"]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 32.0
-offset_right = 160.0
-offset_bottom = 158.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-script = ExtResource("19_v6ha0")
-
-[node name="Player2" type="ColorRect" parent="GameInfo/Inventory" index="1"]
-layout_mode = 0
-anchor_left = 24.4
-anchor_top = 12.0
-anchor_right = 28.6
-anchor_bottom = 16.2
-metadata/_edit_use_anchors_ = true
-
-[node name="Label2" type="Label" parent="GameInfo/Inventory/Player2" index="0"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.83928573
-anchor_bottom = 0.13690476
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Player 2 Inventory"
-metadata/_edit_use_anchors_ = true
-
-[node name="Inventory2" type="Label" parent="GameInfo/Inventory/Player2" index="1"]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 31.0
-offset_right = 158.0
-offset_bottom = 157.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-script = ExtResource("21_o7j4k")
-
-[node name="Ordering" type="Control" parent="GameInfo" index="3"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("20_gmpev")
-
-[node name="BG" type="ColorRect" parent="GameInfo/Ordering" index="0"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 17.625
-anchor_top = 13.35
-anchor_right = 23.5
-anchor_bottom = 15.55
-metadata/_edit_use_anchors_ = true
-
-[node name="Order" type="Label" parent="GameInfo/Ordering/BG" index="0"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 13.0
-offset_top = 6.0
-offset_right = -13.0
-offset_bottom = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Currently Ordering: Nothing!!!"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="AmountOfMoney" type="ColorRect" parent="GameInfo" index="4"]
-visible = false
-anchors_preset = -1
-anchor_left = 18.0
-anchor_top = 12.2
-anchor_right = 18.090279
-anchor_bottom = 12.274075
-offset_left = -20031.0
-offset_top = -7425.6
-offset_right = -20031.0
-offset_bottom = -7425.6
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="GameInfo/AmountOfMoney" index="0"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.038461544
-anchor_top = 0.16666667
-anchor_right = 0.97115386
-anchor_bottom = 0.6458333
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "9999 money"
-metadata/_edit_use_anchors_ = true
-
-[node name="Time" type="ColorRect" parent="GameInfo" index="5"]
-anchors_preset = -1
-anchor_left = 0.7083333
-anchor_top = 0.7407407
-anchor_right = 0.8159722
-anchor_bottom = 0.8148148
-offset_top = 3.0517578e-05
-script = ExtResource("21_mkypq")
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="GameInfo/Time" index="0"]
-layout_mode = 0
-anchor_left = 0.06451613
-anchor_top = 0.16666667
-anchor_right = 0.9354839
-anchor_bottom = 0.8333333
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="EndScreen" type="Control" parent="." index="9"]
-visible = false
-z_index = 1
-layout_mode = 3
-anchors_preset = 0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("25_7o3do")
-metadata/_edit_use_anchors_ = true
-
-[node name="BG" type="ColorRect" parent="EndScreen" index="0"]
-layout_mode = 0
-offset_right = 1216.0
-offset_bottom = 720.0
-color = Color(0, 0, 0, 0.73333335)
-
-[node name="EndCard" type="ColorRect" parent="EndScreen" index="1"]
-layout_mode = 0
-offset_left = 392.0
-offset_top = 88.0
-offset_right = 784.0
-offset_bottom = 616.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="EndScreen/EndCard" index="0"]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 16.0
-offset_right = 368.0
-offset_bottom = 96.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "END OF GAMEEEE"
-
-[node name="Button" type="Button" parent="EndScreen/EndCard" index="1"]
-layout_mode = 0
-anchor_left = 0.06122449
-anchor_top = 0.6363636
-anchor_right = 0.93877554
-anchor_bottom = 0.92424244
-theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
-theme_override_colors/icon_pressed_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
-theme_override_colors/icon_hover_color = Color(0.13682577, 0.13682574, 0.13682571, 1)
-text = "RETURN TO HOMESCREEN"
-metadata/_edit_use_anchors_ = true
-
-[node name="Rating" type="Control" parent="EndScreen" index="2"]
-anchors_preset = 0
-offset_left = 496.0
-offset_top = 184.0
-offset_right = 536.0
-offset_bottom = 224.0
-script = ExtResource("23_mqh5v")
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="EndScreen/Rating" index="0"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.175
-anchor_top = 1.0
-anchor_right = 6.325
-anchor_bottom = 2.5
-max_value = 5.0
-step = 0.1
-value = 5.0
-texture_progress = ExtResource("24_7o3do")
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="EndScreen/Rating" index="1"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.75
-anchor_top = -0.775
-anchor_right = 5.975
-anchor_bottom = 0.425
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "Average rating: "
-metadata/_edit_use_anchors_ = true
-
-[connection signal="timeout" from="MinuteTimer" to="." method="on_game_tick"]
-[connection signal="pressed" from="EndScreen/EndCard/Button" to="EndScreen" method="_on_button_pressed"]

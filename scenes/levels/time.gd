@@ -1,4 +1,5 @@
 extends ColorRect
+class_name MenuTime
 
 var return_string: String
 

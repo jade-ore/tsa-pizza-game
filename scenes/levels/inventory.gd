@@ -1,3 +1,2 @@
 extends Control
-
-func pre
+class_name MenuInventory

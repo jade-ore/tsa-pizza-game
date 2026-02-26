@@ -1,4 +1,5 @@
 extends Control
+class_name MenuOrdering
 
 func order(item):
 	$BG/Order.text = "Currently Ordering: " + str(item)

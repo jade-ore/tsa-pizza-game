@@ -9,6 +9,7 @@ var facing_direction = 0
 var last_direction: Vector2
 var current_menu: String = ""
 
+
 @export var inventory: InventoryComponent
 @export var time_it_takes_to_roll_dough: float = 2
 
@@ -123,6 +124,7 @@ func roll_dough():
 	is_rolling_dough = true
 	await timer.timeout
 	inventory.add(Pizza.new(subtracted.size))
+	TutorialPass.emit()
 	is_rolling_dough = false
 	return true
 
@@ -161,6 +163,7 @@ var current_menu_topping_selected: Topping
 signal Order
 signal EnteredDoughSize
 var current_dough_pos: int
+signal TutorialPass
 
 func get_dough_size():
 	$DoughSizeSelection.visible = true
@@ -168,6 +171,7 @@ func get_dough_size():
 	menu_running = true
 	await EnteredDoughSize
 	menu_running = false
+	TutorialPass.emit()
 	return current_dough_pos
 
 func order_ingredients(order_station):
