@@ -80,6 +80,7 @@ func customer_incoming():
 	customer.Order.connect(add_ticket_to_screen)
 	add_child(customer)
 	move_all_customers(selected_station)
+	return customer
 
 func move_all_customers(station):
 	for index in range(len(cashier_stations[station])):

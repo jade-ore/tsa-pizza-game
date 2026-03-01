@@ -35,6 +35,7 @@ func _input(_event: InputEvent) -> void:
 		if Input.is_action_just_pressed("exit"):
 			if current_menu == "order":
 				menu_running = false
+				current_menu = ""
 				$OrderMenu.visible = false
 		if Input.is_action_just_pressed("interact"):
 			if current_menu == "order":

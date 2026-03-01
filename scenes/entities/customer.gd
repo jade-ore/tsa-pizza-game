@@ -11,7 +11,7 @@ var order_taken: bool
 var time_elapsed: int
 var order_max_wait_time = 25
 var serve_max_wait_time = 50
-var patience = 10
+@export var patience = 10
 var ready_to_talk: bool
 signal Order
 
@@ -45,12 +45,23 @@ func interact(plr_inventory):
 	rating += order.compare_to(pizza)
 	var serve_time_stars = remap(serve_max_wait_time - time_elapsed + patience, 0, serve_max_wait_time + patience, 0, 1)
 	rating += round(serve_time_stars)
-	queue_free()
+	leave()
 
-func _exit_tree() -> void:
+func stop_timer():
+	$ElapsedTimeTimer.stop()
+	time_elapsed = 0
+
+func start_timer():
+	$ElapsedTimeTimer.start()
+
+func leave() -> void:
 	rating = ( rating + abs(rating) ) / 2 # If rating is below 0, sets it to 0
 	CustomerLeft.emit(self)
 	print(rating)
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "global_position", Vector2(0,348), speed)
+	await tween.finished
+	queue_free()
 
 func one_second_passed() -> void:
 	time_elapsed += 1

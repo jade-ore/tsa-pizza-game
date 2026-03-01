@@ -70,4 +70,5 @@ func compare_to(other: Pizza):
 	if cooked != other.cooked: percentage -= 0.5
 	if other.size != size: percentage -= 0.5
 	var stars = remap(percentage, 0, 1, 0, 3)
+	if len(other.toppings) == 0: stars = -99
 	return floor(stars)

@@ -3,7 +3,14 @@ extends GameLevel
 var pos_array_index: int = 0
 var original_pos: Array
 var total_stations: Array
-var next_step: bool
+var current_step: int
+
+enum {
+	ADD_INGREDIENTS,
+	NOTHING,
+	COOK_PIZZA,
+	USE_TABLES,
+}
 
 signal Continue
 
@@ -16,8 +23,10 @@ var cutscene_1 = [
 	["End"]
 ]
 var cutscene_2 = [
-	["Tutorial", "To make a pizza, go to the dough station and click E"],
-	["Tutorial", "Then, use your A and D keys to select which size dough you want."],
+	["Tutorial", "To make a pizza, you first interact with the dough station."],
+	["Tutorial", "To interact with something, go up to the station until it's highlighted in black, then click E or O"],
+	["Tutorial", "Then, use your left and right movement keys (A and D for player on the left) to select which size dough you want."],
+	["Tutorial", "Go ahead and grab some dough right now."],
 	["End"]
 ]
 var cutscene_3 = [
@@ -37,6 +46,36 @@ var cutscene_5 = [
 ]
 var cutscene_6 = [
 	["Tutorial", "Next, we will learn how to add ingredients onto our pizza."],
+	["Tutorial", "To add an ingredient onto our pizza, go and interact with an ingredient station with the rolled dough."],
+	["Tutorial", "Go ahead and add sauce and cheese to our pizza."],
+	["End"]
+]
+var cutscene_7 = [
+	["Tutorial", "Now that we have our pizza, lets go ahead and go cook it."],
+	["Tutorial", "If you have a pizza in your inventory, you can go and interact with the oven to put it inside the oven."],
+	["Tutorial", 'Then, wait until the oven says "Finished!" and go up and interact with it again'],
+	["End"]
+]
+var cutscene_8 = [
+	["Tutorial", "Let's introduce something else."],
+	["Tutorial", "Look at these empty tables."],
+	["Tutorial", "Here, you can place items to do other things."],
+	["Tutorial", "To place the items, go ahead and interact with the table."],
+	["End"]
+]
+var cutscene_9 = [
+	["Tutorial", "Here are the cashier stations."],
+	["Tutorial", "Customers will show up."],
+	["Tutorial", "To take an order for a customer, go up to the cashier station they're in front of and interact with it."],
+	["Tutorial", "Go ahead and take the order right now!"],
+	["End"]
+]
+
+var cutscene_10 = [
+	["ChangePositionMiddle"],
+	["Tutorial", "When you take an order, a ticket will pop up, shown here."],
+	["ChangePositionHome"],
+	["Tutorial", "To give a customer an order, have the pizza in your inventory and interact with the cashier station."],
 	["End"]
 ]
 
@@ -59,24 +98,28 @@ func _ready() -> void:
 		total_stations.append(child)
 		child.position = Vector2(-99999, 88888)
 	
-	
+	# intro
 	cutscene.set_dialogue(cutscene_1)
 	cutscene.next_scene()
 	
 	await cutscene.finished
 	await get_tree().create_timer(1).timeout
 	
+	# get dough
 	show_next_station()
 	$Stations/Dough.interact_component.inventory.amount = 9999999
 	cutscene.set_dialogue(cutscene_2)
 	cutscene.next_scene()
 	await cutscene.finished
 	await Global.players[0].TutorialPass
+	
+	# roll dough
 	cutscene.set_dialogue(cutscene_3)
 	cutscene.next_scene()
 	await cutscene.finished
 	await Global.players[0].TutorialPass
 	
+	# inventory
 	cutscene.set_dialogue(cutscene_4)
 	cutscene.next_scene()
 	await cutscene.finished
@@ -84,9 +127,74 @@ func _ready() -> void:
 	cutscene.set_dialogue(cutscene_5)
 	cutscene.next_scene()
 	game_info.inventory.visible = true
+	await cutscene.finished
+	await get_tree().process_frame
+	
+	# toppings
+	cutscene.set_dialogue(cutscene_6)
+	cutscene.next_scene()
 	show_next_station(2)
 	$Stations/Cheese.interact_component.inventory.amount = 999999
 	$Stations/Sauce.interact_component.inventory.amount = 999999
+	await cutscene.finished
+	current_step = ADD_INGREDIENTS
+	await NextStep
+	
+	# use oven
+	current_step = NOTHING
+	cutscene.set_dialogue(cutscene_7)
+	cutscene.next_scene()
+	show_next_station()
+	await cutscene.finished
+	current_step = COOK_PIZZA
+	await NextStep
+	
+	# use empty tables
+	cutscene.set_dialogue(cutscene_8)
+	cutscene.next_scene()
+	show_next_station(4)
+	await cutscene.finished
+	current_step = USE_TABLES
+	await NextStep
+	
+	# cashiers
+	show_next_station()
+	var customer = customer_incoming()
+	cutscene.set_dialogue(cutscene_9)
+	cutscene.next_scene()
+	customer.stop_timer()
+	await cutscene.finished
+	await customer.Order
+	
+	# tickets and customer
+	$GameInfo/TicketsContainer.visible = true
+	cutscene.set_dialogue(cutscene_10)
+	cutscene.next_scene()
+	await cutscene.finished
+	await customer.CustomerLeft
+	
+	# stock
+	$Stations/Cheese.interact_component.inventory.amount = 5
+	$Stations/Sauce.interact_component.inventory.amount = 5
+	$Stations/Dough.interact_component.inventory.amount = 5
+	
+signal NextStep
+func _process(delta: float) -> void:
+	var player_pizza = Global.players[0].inventory.value
+	if current_step == ADD_INGREDIENTS:
+		if Global.players[0].inventory.value is not Pizza:
+			return
+		if len(player_pizza.toppings) == 2:
+			NextStep.emit()
+	if current_step == COOK_PIZZA:
+		if Global.players[0].inventory.value is not Pizza:
+			return
+		if player_pizza.cooked == 1:
+			NextStep.emit()
+	if current_step == USE_TABLES:
+		if Global.players[0].inventory.value == null:
+			NextStep.emit()
+
 func player_passed():
 	Continue.emit()
 
