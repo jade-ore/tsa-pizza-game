@@ -2,15 +2,17 @@ extends Sprite2D
 class_name Customer
 signal CustomerLeft
 
+enum {WAITING_TO_TALK, WAITING_FOR_ORDER}
 @export var station: Node2D = null
 @export var rating: int = 0
 @export var target_position: Vector2
+var current_state: int
 var speed = 1
 var order = Pizza.generate_pizza()
 var order_taken: bool
 var time_elapsed: int
-var order_max_wait_time = 25
-var serve_max_wait_time = 50
+var order_max_wait_time = 15
+var serve_max_wait_time = 25
 @export var patience = 10
 var ready_to_talk: bool
 signal Order
@@ -25,6 +27,7 @@ func _ready() -> void:
 func move_to_position(_speed = 0):
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "global_position", target_position, speed)
+	current_state = WAITING_TO_TALK
 
 func start():
 	$ElapsedTimeTimer.start()
@@ -38,6 +41,7 @@ func interact(plr_inventory):
 		order_taken = true
 		Order.emit(self, order)
 		time_elapsed = 0
+		current_state = WAITING_FOR_ORDER
 		return
 	if plr_inventory.value is not Pizza: 
 		return
@@ -65,3 +69,11 @@ func leave() -> void:
 
 func one_second_passed() -> void:
 	time_elapsed += 1
+	if current_state == WAITING_TO_TALK:
+		if time_elapsed > order_max_wait_time + patience: 
+			rating = 0
+			leave()
+	if current_state == WAITING_FOR_ORDER:
+		if time_elapsed > serve_max_wait_time + patience: 
+			rating = 0
+			leave()

@@ -170,17 +170,8 @@ metadata/_edit_lock_ = true
 [node name="Order" parent="GameInfo/Ordering/BG" index="0"]
 metadata/_edit_lock_ = true
 
-[node name="AmountOfMoney" parent="GameInfo" index="4"]
-metadata/_edit_lock_ = true
-
-[node name="Label" parent="GameInfo/AmountOfMoney" index="0"]
-metadata/_edit_lock_ = true
-
-[node name="Time" parent="GameInfo" index="5"]
-metadata/_edit_lock_ = true
-
-[node name="Label" parent="GameInfo/Time" index="0"]
-metadata/_edit_lock_ = true
+[node name="Time" parent="GameInfo" index="4"]
+anchor_left = 0.7291667
 
 [node name="EndScreen" parent="." index="9"]
 metadata/_edit_lock_ = true
@@ -188,3 +179,4 @@ metadata/_edit_lock_ = true
 [node name="Dialogue" type="CanvasLayer" parent="." index="10"]
 
 [node name="Text" parent="Dialogue" index="0" instance=ExtResource("2_43dxg")]
+metadata/_edit_lock_ = true

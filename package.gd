@@ -1,4 +1,5 @@
 extends AnimatedSprite2D
+class_name Package
 
 enum {normal, faced, selected}
 

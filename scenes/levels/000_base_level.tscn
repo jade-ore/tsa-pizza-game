@@ -13,10 +13,10 @@
 [ext_resource type="Script" uid="uid://cybunr56w12rm" path="res://scenes/levels/inventory_label.gd" id="8_ab8o7"]
 [ext_resource type="Script" uid="uid://bcdwn8ifhnu4x" path="res://scenes/levels/inventory_2.gd" id="9_e42mt"]
 [ext_resource type="Script" uid="uid://di1ex1sqqsrm1" path="res://scenes/levels/ordering.gd" id="10_1ga7y"]
-[ext_resource type="Script" uid="uid://f0pxa0oa0gv8" path="res://scenes/levels/amount_of_money.gd" id="11_241kj"]
 [ext_resource type="Script" uid="uid://bneot0rnisngv" path="res://scenes/levels/time.gd" id="12_ucqb0"]
 [ext_resource type="Script" uid="uid://b2p68uy56xtur" path="res://scenes/levels/end_screen.gd" id="13_o4u3v"]
 [ext_resource type="Script" uid="uid://d3p53nvejyl6b" path="res://scenes/levels/rating.gd" id="14_epd3t"]
+[ext_resource type="Script" uid="uid://djug5lyegm34x" path="res://scenes/levels/number_of_stars.gd" id="15_560wp"]
 [ext_resource type="Texture2D" uid="uid://cn885onptrigd" path="res://assets/img/sprites/stars (1).png" id="15_gjiv7"]
 
 [node name="BaseLevel" type="Node2D"]
@@ -45,13 +45,13 @@ script = ExtResource("5_ab8o7")
 autostart = true
 script = ExtResource("3_obrav")
 
-[node name="GameInfo" type="CanvasLayer" parent="." node_paths=PackedStringArray("time", "inventory", "ordering", "amount_of_money", "tickets")]
+[node name="GameInfo" type="CanvasLayer" parent="." node_paths=PackedStringArray("time", "inventory", "ordering", "tickets", "current_rating")]
 script = ExtResource("4_yx7gj")
 time = NodePath("Time")
 inventory = NodePath("Inventory")
 ordering = NodePath("Ordering")
-amount_of_money = NodePath("AmountOfMoney")
 tickets = NodePath("TicketsContainer")
+current_rating = NodePath("NumberOfStars")
 
 [node name="Background" type="ColorRect" parent="GameInfo"]
 custom_minimum_size = Vector2(1152, 0)
@@ -245,36 +245,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="AmountOfMoney" type="ColorRect" parent="GameInfo"]
-visible = false
-anchors_preset = -1
-anchor_left = 18.0
-anchor_top = 12.2
-anchor_right = 18.090279
-anchor_bottom = 12.274075
-offset_left = -20031.0
-offset_top = -7425.6
-offset_right = -20031.0
-offset_bottom = -7425.6
-script = ExtResource("11_241kj")
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="GameInfo/AmountOfMoney"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.038461544
-anchor_top = 0.16666667
-anchor_right = 0.97115386
-anchor_bottom = 0.6458333
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "9999 money"
-metadata/_edit_use_anchors_ = true
-
 [node name="Time" type="ColorRect" parent="GameInfo"]
 anchors_preset = -1
-anchor_left = 0.7083333
+anchor_left = 0.7274306
 anchor_top = 0.7407407
 anchor_right = 0.8159722
 anchor_bottom = 0.8148148
@@ -289,6 +262,44 @@ anchor_top = 0.16666667
 anchor_right = 0.9354839
 anchor_bottom = 0.8333333
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="NumberOfStars" type="ColorRect" parent="GameInfo"]
+anchors_preset = -1
+anchor_left = 0.6119792
+anchor_top = 0.7407407
+anchor_right = 0.7230903
+anchor_bottom = 0.8148148
+offset_top = 3.0517578e-05
+script = ExtResource("15_560wp")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="GameInfo/NumberOfStars"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07812506
+anchor_top = 0.041666668
+anchor_right = 0.9490928
+anchor_bottom = 0.5208333
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "Average: 4.5 stars"
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="GameInfo/NumberOfStars"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031249896
+anchor_top = 0.39583334
+anchor_right = 0.9687499
+anchor_bottom = 0.8958333
+offset_right = 180.00002
+offset_bottom = 36.0
+scale = Vector2(0.4, 0.4)
+max_value = 5.0
+step = 0.1
+value = 5.0
+texture_progress = ExtResource("15_gjiv7")
 metadata/_edit_use_anchors_ = true
 
 [node name="EndScreen" type="Control" parent="." node_paths=PackedStringArray("rating")]

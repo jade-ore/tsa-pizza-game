@@ -67,8 +67,8 @@ func compare_to(other: Pizza):
 			incorrect_toppings.append(topping)
 	var num_of_toppings: float = len(toppings)
 	var percentage = 1 - (len(incorrect_toppings) / num_of_toppings)
-	if cooked != other.cooked: percentage -= 0.5
 	if other.size != size: percentage -= 0.5
 	var stars = remap(percentage, 0, 1, 0, 3)
+	if cooked != other.cooked: stars = -99
 	if len(other.toppings) == 0: stars = -99
 	return floor(stars)

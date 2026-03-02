@@ -188,7 +188,7 @@ func change_menu(d: Vector2):
 			direction = Vector2(0,0)
 		if (current_menu_position.y + direction.y < 0 or current_menu_position.y + direction.y > 1):
 			direction = Vector2(0,0)
-		elif len(list_of_ingredients[current_menu_position.y + direction.y]) < current_menu_position.x + 1:
+		elif len(list_of_ingredients[int(current_menu_position.y + direction.y)]) < current_menu_position.x + 1:
 			direction = Vector2(0,0)
 		current_menu_position += direction
 	elif current_menu == "dough":

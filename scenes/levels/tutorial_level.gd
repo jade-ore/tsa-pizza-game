@@ -10,6 +10,7 @@ enum {
 	NOTHING,
 	COOK_PIZZA,
 	USE_TABLES,
+	USE_INGREDIENTS,
 }
 
 signal Continue
@@ -79,6 +80,39 @@ var cutscene_10 = [
 	["End"]
 ]
 
+var cutscene_11 = [
+	["Tutorial", "Let's learn another new topic."],
+	["Tutorial", "As you can see, numbers have popped up on the stations."],
+	["Tutorial", "The numbers show the stock and how much is left."],
+	["Tutorial", "Keep playing the game as you would normally."],
+	["End"]
+]
+var cutscene_12 = [
+	["Tutorial", "It looks like you're running out of ingredients."],
+	["End"]
+]
+var cutscene_13 = [
+	["Tutorial", "Here is the order station."],
+	["Tutorial", "You can order more ingredients by selecting the ingredient you have to order."],
+	["Tutorial", "If you accidentally click on it, click Q (left person) or U (right person) to exit."],
+	["Tutorial", "Try ordering now!"],
+	["End"]
+]
+
+var cutscene_14 = [
+	["Tutorial", "Now that you have ordered ingredients, a package has been delivered."],
+	["Tutorial", "To unpack the delivery, you take the ingredient from the package, and you put it back into the station by interacting with the station."],
+	["Tutorial", "    dGo ahead and unpack the entire package now."],
+	["End"]
+]
+
+var cutscene_15 = [
+	["Tutorial", "Finally, let's introduce stars."],
+	["Tutorial", "Customers will give you a rating out of 5 based on how fast you take their order, how accurate your pizza is, and how fast you get them the pizza."],
+	["Tutorial", "Play until it is 8 o'clock!"],
+	["End"]
+]
+
 func _ready() -> void:
 	setup_game()
 	minute_timer.stop()
@@ -110,13 +144,12 @@ func _ready() -> void:
 	$Stations/Dough.interact_component.inventory.amount = 9999999
 	cutscene.set_dialogue(cutscene_2)
 	cutscene.next_scene()
-	await cutscene.finished
 	await Global.players[0].TutorialPass
 	
 	# roll dough
 	cutscene.set_dialogue(cutscene_3)
 	cutscene.next_scene()
-	await cutscene.finished
+	
 	await Global.players[0].TutorialPass
 	
 	# inventory
@@ -136,7 +169,6 @@ func _ready() -> void:
 	show_next_station(2)
 	$Stations/Cheese.interact_component.inventory.amount = 999999
 	$Stations/Sauce.interact_component.inventory.amount = 999999
-	await cutscene.finished
 	current_step = ADD_INGREDIENTS
 	await NextStep
 	
@@ -145,15 +177,14 @@ func _ready() -> void:
 	cutscene.set_dialogue(cutscene_7)
 	cutscene.next_scene()
 	show_next_station()
-	await cutscene.finished
 	current_step = COOK_PIZZA
 	await NextStep
 	
+	current_step = NOTHING
 	# use empty tables
 	cutscene.set_dialogue(cutscene_8)
 	cutscene.next_scene()
 	show_next_station(4)
-	await cutscene.finished
 	current_step = USE_TABLES
 	await NextStep
 	
@@ -163,7 +194,6 @@ func _ready() -> void:
 	cutscene.set_dialogue(cutscene_9)
 	cutscene.next_scene()
 	customer.stop_timer()
-	await cutscene.finished
 	await customer.Order
 	
 	# tickets and customer
@@ -177,9 +207,51 @@ func _ready() -> void:
 	$Stations/Cheese.interact_component.inventory.amount = 5
 	$Stations/Sauce.interact_component.inventory.amount = 5
 	$Stations/Dough.interact_component.inventory.amount = 5
+	cutscene.set_dialogue(cutscene_11)
+	cutscene.next_scene()
+	await cutscene.finished
+	current_step = USE_INGREDIENTS
+	minute_timer.start()
+	await NextStep
 	
+	# ordering
+	current_step = NOTHING
+	cutscene.set_dialogue(cutscene_12)
+	cutscene.next_scene()
+	show_next_station()
+	await cutscene.finished
+	await get_tree().process_frame
+	cutscene.set_dialogue(cutscene_13)
+	cutscene.next_scene()
+	await cutscene.finished
+	await Global.players[0].Order
+	
+	# unpack package
+	var package: Package = null
+	cutscene.set_dialogue(cutscene_14)
+	cutscene.next_scene()
+	await cutscene.finished
+	while not package:
+		for child in get_children():
+			if child is Package:
+				package = child
+				break
+		await get_tree().process_frame
+	await package.tree_exiting
+	
+	# rating to end
+	minute_timer.stop()
+	cutscene.set_dialogue(cutscene_15)
+	cutscene.next_scene()
+	await cutscene.finished
+	minute_timer.start()
+	game_info.time.visible = true
+	game_info.current_rating.visible = true
+
 signal NextStep
 func _process(delta: float) -> void:
+	if not Global.players[0]:
+		return
 	var player_pizza = Global.players[0].inventory.value
 	if current_step == ADD_INGREDIENTS:
 		if Global.players[0].inventory.value is not Pizza:
@@ -194,6 +266,10 @@ func _process(delta: float) -> void:
 	if current_step == USE_TABLES:
 		if Global.players[0].inventory.value == null:
 			NextStep.emit()
+	if current_step == USE_INGREDIENTS:
+		if $Stations/Cheese.interact_component.inventory.amount ==  1: NextStep.emit()
+		if $Stations/Dough.interact_component.inventory.amount ==  1: NextStep.emit()
+		if $Stations/Sauce.interact_component.inventory.amount ==  1: NextStep.emit()
 
 func player_passed():
 	Continue.emit()

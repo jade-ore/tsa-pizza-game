@@ -94,7 +94,6 @@ func handle_truck(item):
 	order_currently_here = true
 	var truck = truck_scene.instantiate()
 	truck.ingredient = item
-	
 	add_child(truck)
 	await truck.tree_exited
 	game_info.ordering.reset()
@@ -121,6 +120,8 @@ func handle_customer_leaving(customer):
 	customers_served += 1
 	rating_sum += customer.rating
 	rating = rating_sum / customers_served
+	rating = int(rating * 100) / 100.0
+	game_info.current_rating.set_stars(rating)
 
 func add_ticket_to_screen(customer, order):
 	var next_avaliable_ticket

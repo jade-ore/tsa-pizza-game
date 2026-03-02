@@ -35,6 +35,7 @@ func _ready() -> void:
 
 func set_dialogue(_dialogue: Array):
 	Dialogue = _dialogue
+	current_index = -1
 
 func _show_dialogue():
 	CurrentChatbox.visible = true
@@ -57,7 +58,6 @@ func next_scene():
 			_show_dialogue()
 		END:
 			finished.emit()
-			current_index = -1
 			if NextScene:
 				get_tree().change_scene_to_packed(NextScene)
 			else:
